@@ -1,29 +1,3 @@
-name: Deploy to GitHub Pages
-on:
-push:
-branches: ["main"]
-permissions:
-contents: read
-pages: write
-id-token: write
-jobs:
-build:
-runs-on: ubuntu-latest
-steps:
-- uses: actions/checkout@v4
-- uses: actions/setup-node@v4
-with: { node-version: 18 }
-- run: npm ci
-- run: npm run build
-- uses: actions/upload-pages-artifact@v3
-with:
-path: ./dist
-deploy:
-needs: build
-runs-on: ubuntu-latest
-environment:
-name: github-pages
-url: ${{ steps.deployment.outputs.page_url }}
-steps:
-- id: deployment
-uses: actions/deploy-pages@v4
+version https://git-lfs.github.com/spec/v1
+oid sha256:6c84b819c2272bd029c4c288dc0a113253e4f0cd1219816eea837ae6cabc4230
+size 514
