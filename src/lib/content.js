@@ -11,12 +11,12 @@ const folderSlug = path.split('/').slice(-2, -1)[0]
 const finalSlug = fm.slug || folderSlug
   const cover = typeof fm.cover === 'string'
 ? (fm.cover.startsWith('./')
-  ? `/content/projects/${folderSlug}/${fm.cover.replace('./', '')}`
+  ? `/projects/${finalSlug}/${fm.cover.replace('./', '')}`
   : fm.cover)
 : ''
   const hoverCover = typeof fm.hoverCover === 'string'
   ? (fm.hoverCover.startsWith('./')
-    ? `/content/projects/${folderSlug}/${fm.hoverCover.replace('./', '')}`
+    ? `/projects/${finalSlug}/${fm.hoverCover.replace('./', '')}`
     : fm.hoverCover)
   : ''
   const hoverScale = typeof fm.hoverScale === 'number' ? fm.hoverScale : 1
