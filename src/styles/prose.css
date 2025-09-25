@@ -1,0 +1,94 @@
+.prose :where(img){ @apply rounded-md my-8; }
+.prose :where(h1,h2){ @apply tracking-tight; }
+.prose :where(code){ @apply px-1 py-0.5 rounded bg-black/5 dark:bg-white/10; }
+.prose :where(p){ @apply leading-relaxed; }
+.prose :where(ul, ol){ @apply leading-relaxed; }
+.prose :where(li){ @apply leading-relaxed; }
+
+/* Section subsection headings styling */
+.prose :where(h3) {
+  @apply text-xl font-semibold mt-12 mb-6 text-gray-800 dark:text-gray-200;
+}
+
+.dark .prose :where(h3) {
+  @apply text-gray-200;
+}
+
+/* Motivation cards styling */
+.motivation-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.motivation-card {
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.02);
+  transition: all 0.3s ease;
+}
+
+.dark .motivation-card {
+  border-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.motivation-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.dark .motivation-card:hover {
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+.motivation-card h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.dark .motivation-card h4 {
+  color: #f9fafb;
+}
+
+.motivation-card.participation h4 {
+  color: #059669;
+}
+
+.dark .motivation-card.participation h4 {
+  color: #10b981;
+}
+
+.motivation-card.non-participation h4 {
+  color: #dc2626;
+}
+
+.dark .motivation-card.non-participation h4 {
+  color: #ef4444;
+}
+
+.motivation-card ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.motivation-card li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .motivation-cards {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  
+  .motivation-card {
+    padding: 1.25rem;
+  }
+}

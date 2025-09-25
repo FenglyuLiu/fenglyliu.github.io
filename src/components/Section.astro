@@ -1,0 +1,139 @@
+---
+const { heading } = Astro.props
+
+// 生成ID锚点
+function generateId(heading: string | undefined): string {
+  if (!heading) return '';
+  return heading
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '') // 移除特殊字符
+    .replace(/\s+/g, '-') // 空格替换为连字符
+    .replace(/--+/g, '-') // 多个连字符替换为单个
+    .trim();
+}
+
+const sectionId = generateId(heading);
+---
+<section class="section-container" id={sectionId}>
+  <div class="section-content">
+    {heading && <h2 class="section-title">{heading}</h2>}
+    <div class="section-body">
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .section-container {
+    min-height: 60vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 3rem 0;
+    margin: 0;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .section-container.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .section-content {
+    width: 100%;
+    max-width: none;
+  }
+  
+  .section-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    color: #111827;
+    margin-bottom: 2rem;
+    text-align: left;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
+  }
+  
+  .dark .section-title {
+    color: #ffffff !important;
+  }
+  
+  /* Referral项目主题 */
+  .referral-theme .section-title {
+    color: #dc2626 !important;
+  }
+  
+  .dark .referral-theme .section-title {
+    color: #ffffff !important;
+  }
+  
+  .section-container.visible .section-title {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .section-body {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.4s;
+  }
+  
+  .section-container.visible .section-body {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  @media (max-width: 768px) {
+    .section-container {
+      min-height: 50vh;
+      padding: 2rem 0;
+    }
+    
+    .section-title {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+  
+  /* ProjectGrid中的section靠上对齐 */
+  .project-overview-grid .section-container {
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    min-height: auto !important;
+    padding: 0 !important;
+  }
+  
+  .project-overview-grid .section-container .section-title {
+    text-align: left !important;
+  }
+</style>
+
+<script>
+  // 滚动动画效果
+  function initSectionAnimations() {
+    const sections = document.querySelectorAll('.section-container');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px'
+    });
+    
+    sections.forEach(section => {
+      observer.observe(section);
+    });
+  }
+  
+  // 页面加载完成后初始化
+  document.addEventListener('DOMContentLoaded', initSectionAnimations);
+</script>

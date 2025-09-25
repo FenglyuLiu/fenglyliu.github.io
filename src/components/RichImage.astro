@@ -1,0 +1,8 @@
+---
+const { src, alt = '', caption = '', width = 'full' } = Astro.props
+const widthClass = width === 'half' ? 'w-1/2 mx-auto' : 'w-full'
+---
+<figure class="my-6">
+<img src={src} alt={alt} loading="lazy" class={`rounded-md ${widthClass}`} />
+{caption && <figcaption class="text-xs opacity-70 mt-2">{caption}</figcaption>}
+</figure>

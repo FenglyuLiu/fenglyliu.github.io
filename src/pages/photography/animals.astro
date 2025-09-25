@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { readdir } from 'fs/promises'
+import { join } from 'path'
+import { getOrderedPhotos } from '../../lib/photoOrder.js'
+
+// 动态获取动物照片
+const photosDir = join(process.cwd(), 'public', 'photos', 'animals')
+let animalPhotos = []
+
+try {
+  const files = await readdir(photosDir)
+  const allPhotos = files.filter(file => /\.(jpg|jpeg|png|gif|webp)$/i.test(file))
+  animalPhotos = getOrderedPhotos(allPhotos, 'animals')
+} catch (error) {
+  console.log('No animal photos directory found')
+}
+---
+
+<BaseLayout title="Animal Collection - Photography" description="A curated collection of animal photography works">
+<section class="py-10">
+  <h1 class="text-3xl font-semibold tracking-tight">Animal Collection</h1>
+  <p class="opacity-70 mt-2">Capturing the wonderful moments of the animal world, showcasing the beauty and vitality of life.</p>
+</section>
+
+<section class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+  {animalPhotos.map((photo, index) => (
+    <div class="group relative overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800 break-inside-avoid mb-6">
+      <img 
+        src={`/photos/animals/${photo}`} 
+        alt="Animal photography" 
+        class="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-300" 
+        loading="lazy"
+      />
+    </div>
+  ))}
+</section>
+
+<!-- Back to photography main page -->
+<section class="mt-12 text-center">
+  <a href="/photography" class="inline-flex items-center gap-2 rounded-full border border-black/10 dark:border-white/10 px-6 py-3 hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+    <span>← Back to Photography</span>
+  </a>
+</section>
+</BaseLayout>

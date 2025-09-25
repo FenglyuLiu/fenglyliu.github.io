@@ -1,0 +1,328 @@
+---
+const { sections = [], theme = '' } = Astro.props
+---
+
+<aside class={`sidebar-nav floating-nav ${theme}`}>
+  <nav class="nav-content">
+    <h3 class="nav-title">
+      Table of Contents
+    </h3>
+    <ul class="nav-list">
+      {sections.map((section) => (
+        <li>
+          <a 
+            href={section.id === 'top' ? '#' : `#${section.id}`}
+            class="sidebar-link"
+            data-section={section.id}
+            onclick={section.id === 'top' ? 'window.scrollTo({top: 0, behavior: "smooth"}); return false;' : `document.getElementById('${section.id}').scrollIntoView({behavior: 'smooth', block: 'start'}); return false;`}
+          >
+            {section.title}
+          </a>
+          {section.children && (
+            <ul class="nav-sublist">
+              {section.children.map((child) => (
+                <li>
+                  <a 
+                    href={`#${child.id}`}
+                    class="sidebar-link sidebar-sublink"
+                    data-section={child.id}
+                    onclick={`document.getElementById('${child.id}').scrollIntoView({behavior: 'smooth', block: 'start'}); return false;`}
+                  >
+                    {child.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+      ))}
+    </ul>
+  </nav>
+</aside>
+
+<style>
+  .floating-nav {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 1.5rem;
+    width: 280px;
+  }
+  
+  .dark .floating-nav {
+    background: rgba(17, 24, 39, 0.95);
+  }
+  
+  /* Referral项目主题 - 透明磨砂玻璃 */
+  .referral-theme.floating-nav {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+  }
+  
+  .dark .referral-theme.floating-nav {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+  }
+  
+  
+  .nav-content {
+    width: 100%;
+  }
+  
+  .nav-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #6b7280;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .dark .nav-title {
+    color: #9ca3af;
+  }
+  
+  .nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .nav-sublist {
+    list-style: none;
+    padding: 0;
+    margin: 0.25rem 0 0 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .sidebar-link {
+    display: block;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    color: #6b7280;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+  }
+  
+  .dark .sidebar-link {
+    color: #9ca3af;
+  }
+  
+  .sidebar-sublink {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+    margin-left: 0.5rem;
+    border-left: 2px solid transparent;
+  }
+  
+  .dark .sidebar-sublink {
+    color: #9ca3af;
+  }
+  
+  .sidebar-link:hover {
+    background-color: #f3f4f6;
+    color: #374151;
+    transform: translateX(4px);
+  }
+  
+  .dark .sidebar-link:hover {
+    background-color: #374151;
+    color: #f9fafb;
+  }
+  
+  .sidebar-sublink:hover {
+    background-color: #f3f4f6;
+    color: #374151;
+    transform: translateX(2px);
+  }
+  
+  .dark .sidebar-sublink:hover {
+    background-color: #374151;
+    color: #f9fafb;
+  }
+  
+  .sidebar-link.active {
+    background-color: #eff6ff;
+    color: #3b82f6;
+    border-left-color: #3b82f6;
+    font-weight: 500;
+  }
+  
+  .dark .sidebar-link.active {
+    background-color: #1e3a8a;
+    color: #60a5fa;
+    border-left-color: #60a5fa;
+  }
+  
+  /* Referral项目橙红色主题 - 替换蓝色系 */
+  .referral-theme .sidebar-link.active {
+    background-color: #fef3f2;
+    color: #dc2626;
+    border-left-color: #dc2626;
+    font-weight: 500;
+  }
+  
+  .dark .referral-theme .sidebar-link.active {
+    background-color: #7f1d1d;
+    color: #fca5a5;
+    border-left-color: #dc2626;
+  }
+  
+  .sidebar-sublink.active {
+    background-color: #eff6ff;
+    color: #3b82f6;
+    border-left-color: #3b82f6;
+    font-weight: 500;
+  }
+  
+  .dark .sidebar-sublink.active {
+    background-color: #1e3a8a;
+    color: #60a5fa;
+    border-left-color: #60a5fa;
+  }
+  
+  /* Referral项目二级导航活跃状态 */
+  .referral-theme .sidebar-sublink.active {
+    background-color: #fef3f2;
+    color: #dc2626;
+    border-left-color: #dc2626;
+    font-weight: 500;
+  }
+  
+  .dark .referral-theme .sidebar-sublink.active {
+    background-color: #7f1d1d;
+    color: #fca5a5;
+    border-left-color: #dc2626;
+  }
+  
+  @media (max-width: 1024px) {
+    .floating-nav {
+      background: transparent;
+      backdrop-filter: none;
+      border: none;
+      box-shadow: none;
+      padding: 0;
+      width: 100%;
+    }
+    
+    .nav-title {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .nav-list {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+    
+    .sidebar-link {
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      border-left: none;
+      background-color: #f3f4f6;
+    }
+    
+    .dark .sidebar-link {
+      background-color: #374151;
+    }
+    
+    .sidebar-link:hover {
+      transform: none;
+    }
+    
+    .sidebar-sublink {
+      padding: 0.375rem 0.75rem;
+      font-size: 0.75rem;
+      margin-left: 0;
+      border-left: none;
+      background-color: #e5e7eb;
+    }
+    
+    .dark .sidebar-sublink {
+      background-color: #4b5563;
+    }
+    
+    .sidebar-sublink:hover {
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  // 导航栏活跃状态管理
+  function initSidebarNav() {
+    const links = document.querySelectorAll('.sidebar-link');
+    const sections = document.querySelectorAll('.section-container[id]');
+    
+    if (links.length === 0) return;
+    
+    // 处理"top"链接的特殊逻辑
+    const topLink = document.querySelector('[data-section="top"]');
+    
+    // 定义Overview部分包含的section IDs
+    const overviewSections = ['-motivation', '-research-scope', '-what-i-worked-on', '-who-i-'];
+    
+    // 创建 Intersection Observer 来监听章节可见性
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const sectionId = entry.target.id;
+        const link = document.querySelector(`[data-section="${sectionId}"]`);
+        
+        if (entry.isIntersecting) {
+          // 移除所有活跃状态
+          links.forEach(l => l.classList.remove('active'));
+          
+          // 如果当前section属于Overview部分，激活topLink
+          if (overviewSections.includes(sectionId) && topLink) {
+            topLink.classList.add('active');
+          } else if (link) {
+            // 否则激活对应的链接
+            link.classList.add('active');
+          }
+        }
+      });
+    }, {
+      rootMargin: '-10% 0px -10% 0px',
+      threshold: 0.1
+    });
+    
+    // 观察所有章节
+    sections.forEach(section => {
+      observer.observe(section);
+    });
+    
+    // 处理页面顶部检测
+    if (topLink) {
+      const topObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // 当第一个section可见时，显示top为活跃状态
+            links.forEach(l => l.classList.remove('active'));
+            topLink.classList.add('active');
+          }
+        });
+      }, {
+        rootMargin: '0px 0px -90% 0px',
+        threshold: 0
+      });
+      
+      // 观察第一个section
+      const firstSection = sections[0];
+      if (firstSection) {
+        topObserver.observe(firstSection);
+      }
+    }
+  }
+  
+  // 页面加载完成后初始化
+  document.addEventListener('DOMContentLoaded', initSidebarNav);
+</script>

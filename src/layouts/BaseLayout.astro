@@ -1,0 +1,70 @@
+---
+import '../styles/global.css'
+import '../styles/prose.css'
+import Header from '../components/Header.astro'
+import Footer from '../components/Footer.astro'
+const { title = 'Portfolio', description = 'Personal portfolio site', hideThemeToggle = false } = Astro.props
+---
+<html lang="en" class="scroll-smooth" id="html-root">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="icon" href="/favicon.svg" />
+<meta property="og:image" content="/og-default.png" />
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+<Header />
+<main class="mx-auto max-w-6xl px-4">
+<slot />
+</main>
+<Footer />
+
+<!-- 主题切换按钮 -->
+{!hideThemeToggle && (
+  <button id="theme-toggle" class="fixed bottom-6 right-6 z-50 p-3 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-300 shadow-lg">
+    <svg id="sun-icon" class="w-6 h-6 text-yellow-500 hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
+      <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+    </svg>
+    <svg id="moon-icon" class="w-6 h-6 text-blue-400 block dark:hidden" fill="currentColor" viewBox="0 0 20 20">
+      <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+    </svg>
+  </button>
+)}
+
+<script>
+// 主题切换功能
+document.addEventListener('DOMContentLoaded', function() {
+  const themeToggle = document.getElementById('theme-toggle');
+  const htmlRoot = document.getElementById('html-root');
+  const sunIcon = document.getElementById('sun-icon');
+  const moonIcon = document.getElementById('moon-icon');
+  
+  // 获取保存的主题或默认为亮色模式
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  
+  // 应用主题
+  function applyTheme(theme) {
+    if (theme === 'dark') {
+      htmlRoot.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      htmlRoot.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }
+  
+  // 初始化主题
+  applyTheme(savedTheme);
+  
+  // 切换主题
+  themeToggle.addEventListener('click', function() {
+    const currentTheme = htmlRoot.classList.contains('dark') ? 'dark' : 'light';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    applyTheme(newTheme);
+  });
+});
+</script>
+</body>
+</html>

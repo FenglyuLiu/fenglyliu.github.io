@@ -1,0 +1,6 @@
+---
+const { src, title = 'Prototype' } = Astro.props
+---
+<div class="relative w-full overflow-hidden rounded-md border border-black/10 dark:border-white/10" style="padding-top: 65%">
+<iframe src={src} title={title} loading="lazy" class="absolute inset-0 w-full h-full" />
+</div>

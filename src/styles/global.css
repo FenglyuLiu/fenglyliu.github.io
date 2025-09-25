@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+--highlight: 33 212 253; /* HSL RGB 分量，用于渐变/阴影 */
+}
+
+
+html { 
+  color-scheme: light dark; 
+  scroll-padding-top: 4rem; /* 为固定header留出空间 (h-14 = 3.5rem + 0.5rem缓冲) */
+}
+body { @apply bg-white text-black dark:bg-black dark:text-white antialiased; }
+
+
+/* 1px 细线体系 */
+.line { box-shadow: 0 0 0 1px rgba(0,0,0,0.08); }
+.line-strong { box-shadow: 0 0 0 1px rgba(0,0,0,0.2); }
+
+
+/* 彩色高亮边 */
+.hl-border { box-shadow: 0 0 0 2px hsl(var(--highlight) / 0.6); }

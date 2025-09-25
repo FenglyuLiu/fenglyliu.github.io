@@ -1,0 +1,6 @@
+---
+const { src, title = 'Video' } = Astro.props
+---
+<div class="relative w-full overflow-hidden rounded-md border border-black/10 dark:border-white/10" style="padding-top: 56.25%">
+<iframe src={src} title={title} loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="absolute inset-0 w-full h-full"></iframe>
+</div>

@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import ProjectCard from '../../components/ProjectCard.astro'
+import { getAllProjects } from '../../lib/content.js'
+const projects = await getAllProjects()
+---
+<BaseLayout title="Projects — Portfolio">
+<section class="py-10">
+<h1 class="text-3xl font-semibold tracking-tight">All Projects</h1>
+</section>
+<section class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+{projects.map(p => (
+<ProjectCard title={p.title} subtitle={p.subtitle} cover={p.cover} hoverCover={p.hoverCover} hoverScale={p.hoverScale} hoverTop={p.hoverTop} showHoverImage={p.showHoverImage} href={p.url} tags={p.tags} bgClass={p.bgClass} />
+))}
+</section>
+</BaseLayout>

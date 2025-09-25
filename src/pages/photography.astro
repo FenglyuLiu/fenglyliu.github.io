@@ -1,0 +1,176 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { readdir } from 'fs/promises'
+import { join } from 'path'
+import { getOrderedPhotos } from '../lib/photoOrder.js'
+
+// 动态获取动物照片（展示所有照片）
+const animalsDir = join(process.cwd(), 'public', 'photos', 'animals')
+let animalPhotos = []
+
+try {
+  const files = await readdir(animalsDir)
+  const allPhotos = files.filter(file => /\.(jpg|jpeg|png|gif|webp)$/i.test(file))
+  animalPhotos = getOrderedPhotos(allPhotos, 'animals')
+} catch (error) {
+  console.log('No animal photos directory found')
+}
+
+// 动态获取风景照片（展示所有照片）
+const landscapesDir = join(process.cwd(), 'public', 'photos', 'landscapes')
+let landscapePhotos = []
+
+try {
+  const files = await readdir(landscapesDir)
+  const allPhotos = files.filter(file => /\.(jpg|jpeg|png|gif|webp)$/i.test(file))
+  landscapePhotos = getOrderedPhotos(allPhotos, 'landscapes')
+} catch (error) {
+  console.log('No landscape photos directory found')
+}
+
+// 动态获取花花照片（展示所有照片）
+const flowersDir = join(process.cwd(), 'public', 'photos', 'flowers')
+let flowerPhotos = []
+
+try {
+  const files = await readdir(flowersDir)
+  const allPhotos = files.filter(file => /\.(jpg|jpeg|png|gif|webp)$/i.test(file))
+  flowerPhotos = getOrderedPhotos(allPhotos, 'flowers')
+} catch (error) {
+  console.log('No flower photos directory found')
+}
+
+// 动态获取城市照片（展示所有照片）
+const citiesDir = join(process.cwd(), 'public', 'photos', 'cities')
+let cityPhotos = []
+
+try {
+  const files = await readdir(citiesDir)
+  const allPhotos = files.filter(file => /\.(jpg|jpeg|png|gif|webp)$/i.test(file))
+  cityPhotos = getOrderedPhotos(allPhotos, 'cities')
+} catch (error) {
+  console.log('No city photos directory found')
+}
+---
+
+<BaseLayout title="Photography" description="Selected photography works">
+<section class="py-10">
+<h1 class="text-3xl font-semibold tracking-tight">Photography</h1>
+<p class="opacity-70 mt-2">A curated collection of photography works showcasing the beauty of nature and wildlife.</p>
+</section>
+
+<!-- Four Collections in One Row -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
+  <!-- Animal Collection Preview -->
+  <section>
+    <div class="mb-6">
+      <h2 class="text-xl font-semibold tracking-tight flex items-center gap-2 mb-2">
+        <span class="text-xl">🐾</span>
+        Animals
+      </h2>
+      <p class="opacity-70 text-sm mb-4">Capturing wonderful moments of the animal world</p>
+      <a href="/photography/animals" class="inline-flex items-center gap-2 rounded-full border border-black/10 dark:border-white/10 px-3 py-1.5 text-sm hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+        <span>View All</span>
+        <span>→</span>
+      </a>
+    </div>
+    
+    <div class="space-y-3">
+      {animalPhotos.map((photo, index) => (
+        <div class="group relative overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800">
+          <img 
+            src={`/photos/animals/${photo}`} 
+            alt="Animal photography" 
+            class="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-300" 
+            loading="lazy"
+          />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Landscape Collection Preview -->
+  <section>
+    <div class="mb-6">
+      <h2 class="text-xl font-semibold tracking-tight flex items-center gap-2 mb-2">
+        <span class="text-xl">🏔️</span>
+        Landscapes
+      </h2>
+      <p class="opacity-70 text-sm mb-4">Capturing the breathtaking beauty of nature</p>
+      <a href="/photography/landscapes" class="inline-flex items-center gap-2 rounded-full border border-black/10 dark:border-white/10 px-3 py-1.5 text-sm hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+        <span>View All</span>
+        <span>→</span>
+      </a>
+    </div>
+    
+    <div class="space-y-3">
+      {landscapePhotos.map((photo, index) => (
+        <div class="group relative overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800">
+          <img 
+            src={`/photos/landscapes/${photo}`} 
+            alt="Landscape photography" 
+            class="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-300" 
+            loading="lazy"
+          />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Flower Collection Preview -->
+  <section>
+    <div class="mb-6">
+      <h2 class="text-xl font-semibold tracking-tight flex items-center gap-2 mb-2">
+        <span class="text-xl">🌸</span>
+        Flowers
+      </h2>
+      <p class="opacity-70 text-sm mb-4">Capturing the delicate beauty of nature's floral masterpieces</p>
+      <a href="/photography/flowers" class="inline-flex items-center gap-2 rounded-full border border-black/10 dark:border-white/10 px-3 py-1.5 text-sm hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+        <span>View All</span>
+        <span>→</span>
+      </a>
+    </div>
+    
+    <div class="space-y-3">
+      {flowerPhotos.map((photo, index) => (
+        <div class="group relative overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800">
+          <img 
+            src={`/photos/flowers/${photo}`} 
+            alt="Flower photography" 
+            class="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-300" 
+            loading="lazy"
+          />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- City Collection Preview -->
+  <section>
+    <div class="mb-6">
+      <h2 class="text-xl font-semibold tracking-tight flex items-center gap-2 mb-2">
+        <span class="text-xl">🏙️</span>
+        Cities
+      </h2>
+      <p class="opacity-70 text-sm mb-4">Capturing the dynamic energy and architectural beauty of urban landscapes</p>
+      <a href="/photography/cities" class="inline-flex items-center gap-2 rounded-full border border-black/10 dark:border-white/10 px-3 py-1.5 text-sm hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+        <span>View All</span>
+        <span>→</span>
+      </a>
+    </div>
+    
+    <div class="space-y-3">
+      {cityPhotos.map((photo, index) => (
+        <div class="group relative overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800">
+          <img 
+            src={`/photos/cities/${photo}`} 
+            alt="City photography" 
+            class="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-300" 
+            loading="lazy"
+          />
+        </div>
+      ))}
+    </div>
+  </section>
+</div>
+</BaseLayout>

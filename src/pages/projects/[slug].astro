@@ -1,0 +1,158 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { getProjectBySlug, getAllProjects } from '../../lib/content.js'
+import RichImage from '../../components/RichImage.astro'
+import VideoEmbed from '../../components/VideoEmbed.astro'
+import PrototypeEmbed from '../../components/PrototypeEmbed.astro'
+import SidebarNav from '../../components/SidebarNav.astro'
+import ProjectHero from '../../components/ProjectHero.astro'
+
+export async function getStaticPaths() {
+const projects = await getAllProjects()
+return projects.map((p) => ({ params: { slug: p.slug } }))
+}
+
+const { slug } = Astro.params
+const data = await getProjectBySlug(slug)
+if (!data) {
+throw new Error(`Project not found: ${slug}`)
+}
+const { module, frontmatter } = data
+const { title = slug, subtitle = '', sidebarSections = [], role, period, tools, highlights } = frontmatter
+
+// 使用项目配置的sidebarSections，如果没有配置则使用默认配置
+const sections = sidebarSections.length > 0 ? sidebarSections : [
+  { id: 'overview', title: 'Overview' },
+  { id: 'motivation', title: '💡 Motivation' },
+  { id: 'project-scope', title: '✨ Project Scope' },
+  { id: 'what-i-worked-on', title: '🌈 What I worked on' },
+  { id: 'who-i-worked-with', title: '🧑‍🤝‍🧑 Who I worked with' },
+  { id: 'impact', title: '📸 Impact' },
+  { id: 'process-overview', title: 'Process Overview' },
+  { id: 'key-research-questions', title: 'Key Research Questions' },
+  { id: 'research-methods', title: 'Research Methods' },
+  { id: 'log-analysis', title: 'Log Analysis' },
+  { id: 'user-interview', title: 'User Interview' },
+  { id: 'strategic-recommendations', title: 'Strategic Recommendations' },
+  { id: 'personal-reflections', title: 'Personal Reflections' }
+]
+---
+<BaseLayout title={`${title} — Portfolio`} hideThemeToggle={true}>
+  <!-- Hero Header -->
+  <ProjectHero 
+    title={title}
+    subtitle={subtitle}
+  />
+  
+  <!-- 主要内容 -->
+  <article class={`prose prose-neutral dark:prose-invert max-w-none main-content ${slug === 'referral-research' ? 'referral-theme' : ''}`}>
+    <!-- Project Content -->
+    <module.default components={{ RichImage, VideoEmbed, PrototypeEmbed }} />
+  </article>
+  
+  <!-- 浮窗导航 -->
+  <div class="floating-nav-container">
+    <SidebarNav sections={sections} theme={slug === 'referral-research' ? 'referral-theme' : ''} />
+  </div>
+</BaseLayout>
+
+<style>
+  .main-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  
+  .floating-nav-container {
+    position: fixed;
+    top: 50%;
+    left: 2rem;
+    transform: translateY(-50%);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .floating-nav-container.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  @media (max-width: 1200px) {
+    .floating-nav-container {
+      left: 1rem;
+    }
+  }
+  
+  @media (max-width: 1024px) {
+    .floating-nav-container {
+      position: static;
+      transform: none;
+      margin: 2rem auto 0;
+      max-width: 300px;
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .main-content {
+      padding: 0 1rem;
+    }
+  }
+</style>
+
+<script>
+  // 浮窗导航显示控制
+  function initFloatingNav() {
+    const floatingNav = document.querySelector('.floating-nav-container');
+    if (!floatingNav) return;
+    
+    let isVisible = false;
+    let hideTimeout;
+    let hasScrolled = false; // 标记用户是否已滚动
+    
+    // 显示浮窗
+    function showNav() {
+      clearTimeout(hideTimeout);
+      if (!isVisible) {
+        floatingNav.classList.add('visible');
+        isVisible = true;
+      }
+    }
+    
+    // 隐藏浮窗
+    function hideNav() {
+      hideTimeout = setTimeout(() => {
+        floatingNav.classList.remove('visible');
+        isVisible = false;
+      }, 5000); // 延长到5秒
+    }
+    
+    // 鼠标进入页面时显示 - 只有在用户滚动后才触发
+    document.addEventListener('mousemove', (e) => {
+      if (hasScrolled && e.clientX < 200) { // 左侧200px区域触发，但需要先滚动
+        showNav();
+      } else if (hasScrolled) {
+        hideNav();
+      }
+    });
+    
+    // 滚动时显示 - 更敏感
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+      hasScrolled = true; // 标记用户已开始滚动
+      showNav();
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        hideNav();
+      }, 6000); // 延长到6秒
+    });
+    
+    // 移动端始终显示
+    if (window.innerWidth <= 1024) {
+      floatingNav.classList.add('visible');
+    }
+  }
+  
+  document.addEventListener('DOMContentLoaded', initFloatingNav);
+</script>
