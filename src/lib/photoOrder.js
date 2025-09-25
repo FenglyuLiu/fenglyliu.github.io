@@ -5,40 +5,58 @@
 export const photoOrder = {
   animals: [
     // 动物照片顺序 - 按您想要的顺序排列
-    // 示例：'DSC00141', 'DSC00143', 'DSC00146'
+    'DSC00141.jpg',
+    'DSC00143.jpg',
+    'DSC00146.jpg',
+    'DSC00253-2.jpg',
+    'DSC00371.jpg',
+    'DSC00389.jpg',
+    'DSC00397.jpg',
+    'DSC00556.jpg',
+    'DSC00695.JPG',
+    'DSC01053.jpg',
+    'DSC01910 2.JPG',
+    'DSC01914 2.jpg',
+    'DSC01916 2.jpg',
+    'DSC01918 2.jpg',
+    'DSC02227.JPG',
+    'DSC02246.jpg',
+    'DSC02253.JPG',
+    'DSC02261.jpg'
   ],
   
   landscapes: [
     // 风景照片顺序 - 按您想要的顺序排列
-    // 示例：'DSC00780', 'DSC02231', 'DSC02236'
-    'DSC00518.JPG',
+    'DSC00518.jpg',
     'DSC00780.JPG',
+    'DSC02106.JPG',
     'DSC02231.JPG'
   ],
   
   flowers: [
     // 花花照片顺序 - 按您想要的顺序排列
-    // 示例：'flower1', 'flower2', 'flower3'
-    'DSC02236.jpg',
-    'IMG_3683.JPG',
     'DSC00985.JPG',
-    'IMG_3685.JPG',
+    'DSC01055.jpg',
+    'DSC01076.JPG',
+    'DSC02236.jpg',
     'IMG_3681.JPG',
-    'DSC01076.JPG'
+    'IMG_3683.JPG',
+    'IMG_3685.JPG'
   ],
   
   cities: [
     // 城市照片顺序 - 按您想要的顺序排列
-    // 示例：'city1', 'city2', 'city3'
-    'DSC02273.JPG',
-    'DSC02242.jpg',
+    'DSC01498 2.jpg',
+    'DSC01562 2.jpg',
     'DSC01691 2.jpg',
-    'DSC02262.jpg',
-    'DSC02362.JPG',
     'DSC01811 2.jpg',
-    'DSC02371.JPG',
-    'DSC01971.jpg'
-
+    'DSC01971.jpg',
+    'DSC02242.jpg',
+    'DSC02262.jpg',
+    'DSC02268.jpg',
+    'DSC02273.JPG',
+    'DSC02362.JPG',
+    'DSC02371.JPG'
   ]
 }
 
