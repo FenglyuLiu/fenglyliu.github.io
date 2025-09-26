@@ -5,14 +5,12 @@ import { getAllProjects } from '../lib/content.js'
 const projects = await getAllProjects()
 ---
 <BaseLayout title="Felicity Liu" description="Personal Website for Design&research projects and Photography masterpieces.">
-<!-- 鼠标跟随小星星效果 -->
-<div id="stars-container" class="fixed inset-0 pointer-events-none z-50"></div>
 
-<section class="min-h-screen flex flex-col items-center justify-center text-center px-4 -mt-16 relative overflow-hidden">
+<section class="min-h-screen flex flex-col items-center justify-center text-center px-4 -mt-16 relative overflow-hidden z-10">
 <h2 class="font-semibold tracking-normal leading-loose text-lg sm:text-xl md:text-2xl relative z-10">
 <span class="block">👋 Hello! I'm Felicity.</span>
 <span class="block">A Designer with 6 years of experience and 4 years in HCI,</span>
-<span class="block">Dedicated to combining design and research to craft impactful solutions.</span>
+<span class="block">Dedicated to combining design and research to craft impactful, AI-driven solutions.</span>
 </h2>
 <p class="opacity-70 mt-6 relative z-10">Below is a selection of my professional projects.</p>
 <a href="#projects" aria-label="Scroll to projects" class="mt-8 inline-flex items-center gap-2 rounded-full border border-black/10 dark:border-white/10 px-4 py-2 hover:bg-black/5 dark:hover:bg-white/10 relative z-10">
@@ -22,89 +20,21 @@ const projects = await getAllProjects()
 </section>
 
 
-<section id="projects" class="grid sm:grid-cols-2 lg:grid-cols-2 gap-8 -mt-32 pt-16">
+<!-- 两盏光源背景效果 - 固定在视窗中，只在项目部分区域显示，暗夜模式 -->
+<div class="fixed inset-0 pointer-events-none z-0 dark:block hidden">
+  <!-- 右上角蓝色光源 -->
+  <div class="absolute top-1/4 right-1/4 w-96 h-96 rounded-full" 
+       style="background: radial-gradient(circle, rgba(147, 197, 253, 0.5) 0%, rgba(191, 219, 254, 0.3) 40%, transparent 70%); filter: blur(40px);"></div>
+  <!-- 左下角紫色光源 -->
+  <div class="absolute bottom-1/4 left-1/4 w-80 h-80 rounded-full"
+       style="background: radial-gradient(circle, rgba(196, 181, 253, 0.4) 0%, rgba(221, 214, 254, 0.25) 40%, transparent 80%); filter: blur(35px);"></div>
+</div>
+
+<section id="projects" class="relative grid sm:grid-cols-2 lg:grid-cols-2 gap-8 -mt-32 pt-16 z-10">
 {projects.map(p => (
-<ProjectCard title={p.title} subtitle={p.subtitle} cover={p.cover} hoverCover={p.hoverCover} hoverScale={p.hoverScale} hoverTop={p.hoverTop} showHoverImage={p.showHoverImage} href={p.url} tags={p.tags} bgClass={p.bgClass} />
+<div class="relative z-10">
+<ProjectCard title={p.title} subtitle={p.subtitle} cover={p.cover} hoverCover={p.hoverCover} darkCover={p.darkCover} hoverScale={p.hoverScale} hoverTop={p.hoverTop} showHoverImage={p.showHoverImage} href={p.url} tags={p.tags} bgClass={p.bgClass} />
+</div>
 ))}
 </section>
 </BaseLayout>
-
-<script>
-// 鼠标跟随小星星效果
-document.addEventListener('DOMContentLoaded', function() {
-  const starsContainer = document.getElementById('stars-container');
-  let mouseX = 0, mouseY = 0;
-  let lastStarTime = 0;
-  
-  // 监听鼠标移动
-  document.addEventListener('mousemove', function(e) {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    
-    // 限制星星生成频率（每50ms生成一次，更快响应）
-    const now = Date.now();
-    if (now - lastStarTime > 50) {
-      createStar(mouseX, mouseY);
-      lastStarTime = now;
-    }
-  });
-  
-  function createStar(x, y) {
-    const star = document.createElement('div');
-    star.className = 'star';
-    star.style.cssText = `
-      position: absolute;
-      left: ${x}px;
-      top: ${y}px;
-      width: 12px;
-      height: 12px;
-      pointer-events: none;
-      z-index: 1000;
-      animation: starTwinkle 1.5s ease-out forwards;
-    `;
-    
-    // 创建星星形状的SVG
-    star.innerHTML = `
-      <svg width="12" height="12" viewBox="0 0 12 12">
-        <path d="M6 0L7.5 4.5L12 4.5L8.25 7.5L9.75 12L6 9L2.25 12L3.75 7.5L0 4.5L4.5 4.5L6 0Z" 
-              fill="#ffd700" 
-              stroke="#ffed4e" 
-              stroke-width="0.5"/>
-      </svg>
-    `;
-    
-    starsContainer.appendChild(star);
-    
-    // 1.5秒后移除星星元素
-    setTimeout(() => {
-      if (star.parentNode) {
-        star.parentNode.removeChild(star);
-      }
-    }, 1500);
-  }
-});
-
-// 添加CSS动画
-const style = document.createElement('style');
-style.textContent = `
-  @keyframes starTwinkle {
-    0% {
-      opacity: 0;
-      transform: scale(0);
-    }
-    30% {
-      opacity: 1;
-      transform: scale(1);
-    }
-    70% {
-      opacity: 1;
-      transform: scale(1);
-    }
-    100% {
-      opacity: 0;
-      transform: scale(0.5);
-    }
-  }
-`;
-document.head.appendChild(style);
-</script>

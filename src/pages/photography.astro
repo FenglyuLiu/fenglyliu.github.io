@@ -59,8 +59,8 @@ try {
 <p class="opacity-70 mt-2">A curated collection of photography works showcasing the beauty of nature and wildlife.</p>
 </section>
 
-<!-- Four Collections in One Row -->
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
+<!-- Four Collections in Two Rows -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-16">
   <!-- Animal Collection Preview -->
   <section>
     <div class="mb-6">
@@ -76,15 +76,15 @@ try {
     </div>
     
     <div class="space-y-3">
-      {animalPhotos.map((photo, index) => (
-        <div class="group relative overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800">
+      {animalPhotos.slice(0, 1).map((photo, index) => (
+        <a href="/photography/animals" class="group relative overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800 block cursor-pointer">
           <img 
             src={`/photos/animals/${photo}`} 
             alt="Animal photography" 
             class="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-300" 
             loading="lazy"
           />
-        </div>
+        </a>
       ))}
     </div>
   </section>
@@ -104,15 +104,15 @@ try {
     </div>
     
     <div class="space-y-3">
-      {landscapePhotos.map((photo, index) => (
-        <div class="group relative overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800">
+      {landscapePhotos.slice(0, 1).map((photo, index) => (
+        <a href="/photography/landscapes" class="group relative overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800 block cursor-pointer">
           <img 
             src={`/photos/landscapes/${photo}`} 
             alt="Landscape photography" 
             class="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-300" 
             loading="lazy"
           />
-        </div>
+        </a>
       ))}
     </div>
   </section>
@@ -132,15 +132,15 @@ try {
     </div>
     
     <div class="space-y-3">
-      {flowerPhotos.map((photo, index) => (
-        <div class="group relative overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800">
+      {flowerPhotos.slice(0, 1).map((photo, index) => (
+        <a href="/photography/flowers" class="group relative overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800 block cursor-pointer">
           <img 
             src={`/photos/flowers/${photo}`} 
             alt="Flower photography" 
             class="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-300" 
             loading="lazy"
           />
-        </div>
+        </a>
       ))}
     </div>
   </section>
@@ -160,15 +160,15 @@ try {
     </div>
     
     <div class="space-y-3">
-      {cityPhotos.map((photo, index) => (
-        <div class="group relative overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800">
+      {cityPhotos.slice(0, 1).map((photo, index) => (
+        <a href="/photography/cities" class="group relative overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800 block cursor-pointer">
           <img 
             src={`/photos/cities/${photo}`} 
             alt="City photography" 
             class="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-300" 
             loading="lazy"
           />
-        </div>
+        </a>
       ))}
     </div>
   </section>

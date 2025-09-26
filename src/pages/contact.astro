@@ -2,40 +2,195 @@
 import BaseLayout from '../layouts/BaseLayout.astro'
 ---
 <BaseLayout title="Contact" description="Get in touch">
-<section class="py-10 prose dark:prose-invert max-w-4xl">
+
+<!-- 两盏光源背景效果 - 固定在视窗中，只在暗夜模式下显示 -->
+<div class="fixed inset-0 pointer-events-none z-0 dark:block hidden">
+  <!-- 右上角蓝色光源 -->
+  <div class="absolute top-1/4 right-1/4 w-96 h-96 rounded-full" 
+       style="background: radial-gradient(circle, rgba(147, 197, 253, 0.5) 0%, rgba(191, 219, 254, 0.3) 40%, transparent 70%); filter: blur(40px);"></div>
+  <!-- 左下角紫色光源 -->
+  <div class="absolute bottom-1/4 left-1/4 w-80 h-80 rounded-full"
+       style="background: radial-gradient(circle, rgba(196, 181, 253, 0.4) 0%, rgba(221, 214, 254, 0.25) 40%, transparent 80%); filter: blur(35px);"></div>
+</div>
+
+<section class="py-10 prose dark:prose-invert relative z-10">
 <h1 class="text-3xl font-semibold tracking-tight">Contact</h1>
 
-<div class="flex justify-center mt-8">
-  <div class="space-y-6">
-      <!-- 邮箱联系 -->
-      <div class="flex items-center space-x-3">
-        <svg class="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-        </svg>
-        <a href="mailto:liufenglyu@gmail.com" class="text-blue-600 dark:text-blue-400 hover:underline">liufenglyu@gmail.com</a>
-      </div>
-
-      <!-- LinkedIn链接 -->
-      <div class="flex items-center space-x-3">
-        <svg class="w-5 h-5 text-gray-600 dark:text-gray-400" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-        </svg>
-        <a href="https://linkedin.com/in/felicity-fenglyu-liu" target="_blank" rel="noopener" class="text-blue-600 dark:text-blue-400 hover:underline">LinkedIn</a>
-      </div>
-
-      <!-- 简历按钮 -->
-      <div class="pt-4">
-        <a href="/Resume-UXR-FelicityLiu.pdf" target="_blank" rel="noopener" 
-           class="inline-flex items-center gap-2 rounded-full border border-black/10 dark:border-white/10 px-4 py-2 hover:bg-black/5 dark:hover:bg-white/10 transition-colors duration-200">
-          <span>View Resume</span>
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+<!-- 磨砂玻璃卡片布局 -->
+<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+  <!-- Email 卡片 -->
+  <a href="mailto:liufenglyu@gmail.com" class="group relative rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-lg hover:shadow-gray-200/50 transform-gpu hover:scale-[1.02] transition-all duration-200 will-change-transform bg-gray-50 dark:bg-gray-800/50 backdrop-blur-sm">
+    <!-- RIL项目渐变色悬停效果 -->
+    <div class="absolute inset-0 bg-[linear-gradient(90deg,_#ECF8FF_0%,_#D8E4FF_100%)] dark:bg-[linear-gradient(90deg,_#1E3A5F_0%,_#2D4A6B_100%)] opacity-0 group-hover:opacity-20 transition-opacity duration-200 pointer-events-none z-0"></div>
+    <div class="px-6 pt-0 pb-9 relative z-10">
+      <div class="flex items-center space-x-4">
+        <div class="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800/50 flex items-center justify-center">
+          <svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
           </svg>
-        </a>
+        </div>
+        <div>
+          <h3 class="font-semibold text-lg">Email</h3>
+          <div class="flex items-center gap-2">
+            <p class="text-gray-600 dark:text-gray-300 text-sm">liufenglyu@gmail.com</p>
+            <button id="copy-email-btn" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors" title="Copy email">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+  </a>
+
+  <!-- LinkedIn 卡片 -->
+  <a href="https://linkedin.com/in/felicity-fenglyu-liu" target="_blank" rel="noopener" class="group relative rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-lg hover:shadow-gray-200/50 transform-gpu hover:scale-[1.02] transition-all duration-200 will-change-transform bg-gray-50 dark:bg-gray-800/50 backdrop-blur-sm">
+    <!-- RIL项目渐变色悬停效果 -->
+    <div class="absolute inset-0 bg-[linear-gradient(90deg,_#ECF8FF_0%,_#D8E4FF_100%)] dark:bg-[linear-gradient(90deg,_#1E3A5F_0%,_#2D4A6B_100%)] opacity-0 group-hover:opacity-20 transition-opacity duration-200 pointer-events-none z-0"></div>
+    <div class="px-6 pt-0 pb-9 relative z-10">
+      <div class="flex items-center space-x-4">
+        <div class="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800/50 flex items-center justify-center">
+          <svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-semibold text-lg">LinkedIn</h3>
+          <div class="flex items-center gap-2">
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Connect with me</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <!-- Resume 卡片 -->
+  <a href="/Resume-UXR-FelicityLiu.pdf" target="_blank" rel="noopener" class="group relative rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-lg hover:shadow-gray-200/50 transform-gpu hover:scale-[1.02] transition-all duration-200 will-change-transform bg-gray-50 dark:bg-gray-800/50 backdrop-blur-sm">
+    <!-- RIL项目渐变色悬停效果 -->
+    <div class="absolute inset-0 bg-[linear-gradient(90deg,_#ECF8FF_0%,_#D8E4FF_100%)] dark:bg-[linear-gradient(90deg,_#1E3A5F_0%,_#2D4A6B_100%)] opacity-0 group-hover:opacity-20 transition-opacity duration-200 pointer-events-none z-0"></div>
+    <div class="px-6 pt-0 pb-9 relative z-10">
+      <div class="flex items-center space-x-4">
+        <div class="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800/50 flex items-center justify-center">
+          <svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-semibold text-lg">Resume</h3>
+          <div class="flex items-center gap-2">
+            <p class="text-gray-600 dark:text-gray-300 text-sm">View PDF</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
 </div>
 </section>
+
+<!-- About Me Section -->
+<section class="py-16 prose dark:prose-invert relative z-10">
+  <h2 class="text-2xl font-semibold tracking-tight mb-6">About Me</h2>
+    
+    <div class="space-y-6 text-gray-600 dark:text-gray-300">
+      <p class="text-lg leading-relaxed">
+        Hello! I'm Felicity, a passionate designer and researcher with 6 years of experience in design and 4 years in Human-Computer Interaction. I'm dedicated to combining design and research to craft impactful, AI-driven solutions that make a real difference in people's lives.
+      </p>
+      
+      <p class="text-lg leading-relaxed">
+        I'm amazed by the power of AI tools - I built most of this website from scratch in just three days! This experience has been truly eye-opening, and I plan to start a new blog to document my exploration journey with AI tools. I'm excited about the emergence of new AI technologies that can further assist our creative work.
+      </p>
+      
+      <p class="text-lg leading-relaxed">
+        As a product designer and researcher in the early stages of my career, I'm passionate about exploring next-generation interaction methods influenced by AI technology. My goal is to leverage technology to liberate human productivity, creating more intuitive and efficient ways for people to work and create.
+      </p>
+      
+      <p class="text-lg leading-relaxed">
+        Currently, I'm working on developing a personal AI agent that will serve as an intelligent extension of myself. This AI agent is designed to help you get to know me better through interactive conversations, providing insights into my work, thinking process, and creative approach.
+      </p>
+      
+      <div class="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+        <div class="flex items-start space-x-4">
+          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+            </svg>
+          </div>
+          <div>
+            <h3 class="font-semibold text-lg text-gray-900 dark:text-gray-100 mb-2">AI Agent Coming Soon</h3>
+            <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+              I'm excited to share that I'm developing a personal AI agent that will allow you to have meaningful conversations about my work, design philosophy, and creative process. This AI will help bridge the gap between my portfolio and a deeper understanding of who I am as a designer and researcher.
+            </p>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mt-3 italic">
+              Stay tuned for updates on this innovative way to connect and learn more about my journey in design and AI.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const copyBtn = document.getElementById('copy-email-btn');
+  
+  copyBtn.addEventListener('click', function(event) {
+    // 阻止事件冒泡和默认行为
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+    
+    const email = 'liufenglyu@gmail.com';
+    
+    // 使用现代 Clipboard API
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(email).then(() => {
+        showCopyFeedback();
+      }).catch(() => {
+        fallbackCopy(email);
+      });
+    } else {
+      // 降级方案
+      fallbackCopy(email);
+    }
+  });
+});
+
+function fallbackCopy(text) {
+  const textArea = document.createElement('textarea');
+  textArea.value = text;
+  textArea.style.position = 'fixed';
+  textArea.style.left = '-999999px';
+  textArea.style.top = '-999999px';
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  
+  try {
+    document.execCommand('copy');
+    showCopyFeedback();
+  } catch (err) {
+    console.error('Failed to copy email:', err);
+  }
+  
+  document.body.removeChild(textArea);
+}
+
+function showCopyFeedback() {
+  // 创建临时提示
+  const toast = document.createElement('div');
+  toast.textContent = 'Email copied!';
+  toast.className = 'fixed top-4 right-4 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg z-50 transition-opacity duration-300';
+  document.body.appendChild(toast);
+  
+  // 2秒后移除提示
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    setTimeout(() => {
+      document.body.removeChild(toast);
+    }, 300);
+  }, 2000);
+}
+</script>
 </BaseLayout>
 

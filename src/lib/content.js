@@ -19,6 +19,11 @@ const finalSlug = fm.slug || folderSlug
     ? `/projects/${finalSlug}/${fm.hoverCover.replace('./', '')}`
     : fm.hoverCover)
   : ''
+  const darkCover = typeof fm.darkCover === 'string'
+  ? (fm.darkCover.startsWith('./')
+    ? `/projects/${finalSlug}/${fm.darkCover.replace('./', '')}`
+    : fm.darkCover)
+  : ''
   const hoverScale = typeof fm.hoverScale === 'number' ? fm.hoverScale : 1
   const hoverTop = typeof fm.hoverTop === 'string' ? fm.hoverTop : '40%'
   const showHoverImage = typeof fm.showHoverImage === 'boolean' ? fm.showHoverImage : true
@@ -29,6 +34,7 @@ title: fm.title || finalSlug,
 subtitle: fm.subtitle || '',
     cover,
     hoverCover,
+    darkCover,
     hoverScale,
     hoverTop,
     showHoverImage,
@@ -49,7 +55,26 @@ const mod = await loader()
 const fm = mod.frontmatter || {}
 const finalSlug = fm.slug || folderSlug
 if (finalSlug === slug) {
-return { module: mod, frontmatter: fm }
+  // 处理封面图路径，与 getAllProjects 保持一致
+  const cover = typeof fm.cover === 'string'
+    ? (fm.cover.startsWith('./')
+      ? `/projects/${finalSlug}/${fm.cover.replace('./', '')}`
+      : fm.cover)
+    : ''
+  const darkCover = typeof fm.darkCover === 'string'
+    ? (fm.darkCover.startsWith('./')
+      ? `/projects/${finalSlug}/${fm.darkCover.replace('./', '')}`
+      : fm.darkCover)
+    : ''
+  
+  // 返回处理后的 frontmatter
+  const processedFrontmatter = {
+    ...fm,
+    cover,
+    darkCover
+  }
+  
+  return { module: mod, frontmatter: processedFrontmatter }
 }
 }
 return null

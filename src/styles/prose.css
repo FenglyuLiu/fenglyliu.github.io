@@ -1,6 +1,6 @@
 .prose :where(img){ @apply rounded-md my-8; }
 .prose :where(h1,h2){ @apply tracking-tight; }
-.prose :where(code){ @apply px-1 py-0.5 rounded bg-black/5 dark:bg-white/10; }
+.prose :where(code){ @apply px-1 py-0.5 rounded bg-black/5 dark:bg-white/5; }
 .prose :where(p){ @apply leading-relaxed; }
 .prose :where(ul, ol){ @apply leading-relaxed; }
 .prose :where(li){ @apply leading-relaxed; }

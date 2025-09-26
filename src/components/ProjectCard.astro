@@ -1,19 +1,27 @@
 ---
-const { title, subtitle, cover, hoverCover = '', hoverScale = 1.1, hoverTop = '40%', showHoverImage = true, href, tags = [], bgClass = '' } = Astro.props
+const { title, subtitle, cover, hoverCover = '', darkCover = '', hoverScale = 1.1, hoverTop = '40%', showHoverImage = true, href, tags = [], bgClass = '' } = Astro.props
 const hasOpacityClass = typeof bgClass === 'string' && bgClass.includes('opacity-')
 const hasDarkClass = typeof bgClass === 'string' && bgClass.includes('dark:')
 ---
-<a href={href} class={`group relative block rounded-xl overflow-hidden border border-black/10 dark:border-white/10 hover:shadow-lg hover:shadow-gray-200/50 transform-gpu hover:scale-[1.02] transition-all duration-200 will-change-transform`}>
+<a href={href} class={`group relative block rounded-xl overflow-hidden border border-black/10 dark:border-white/15 hover:shadow-lg hover:shadow-gray-200/50 transform-gpu hover:scale-[1.02] transition-all duration-200 will-change-transform dark:backdrop-blur-xl dark:bg-white/20 dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2)] dark:before:absolute dark:before:inset-0 dark:before:rounded-xl dark:before:bg-gradient-to-br dark:before:from-white/20 dark:before:via-transparent dark:before:to-transparent dark:before:pointer-events-none dark:before:opacity-0 dark:group-hover:before:opacity-100 dark:before:transition-opacity dark:before:duration-300`}>
 {bgClass && (
 <div class={`absolute inset-0 ${bgClass} ${hasOpacityClass ? '' : 'opacity-40 group-hover:opacity-60'} transition-opacity duration-200 pointer-events-none z-0`}></div>
 )}
 <div class="relative z-10">
-<img src={cover} alt={title} class="aspect-[4/3] w-full object-cover transition-opacity duration-300" loading="lazy" />
+<!-- 亮色模式封面 -->
+<img src={cover} alt={title} class="aspect-[4/3] w-full object-cover transition-opacity duration-300 dark:hidden" loading="lazy" />
+<!-- 暗夜模式封面 -->
+{darkCover && (
+<img src={darkCover} alt={title} class="aspect-[4/3] w-full object-cover transition-opacity duration-300 hidden dark:block" loading="lazy" />
+)}
+{!darkCover && (
+<img src={cover} alt={title} class="aspect-[4/3] w-full object-cover transition-opacity duration-300 hidden dark:block" loading="lazy" />
+)}
 {showHoverImage && hoverCover && (
 <img src={hoverCover} alt={`${title} hover`} style={{ top: hoverTop, transform: `translate(-50%, -50%) scale(${hoverScale})` }} class="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 w-auto h-auto max-w-full max-h-full object-contain opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" loading="lazy" />
 )}
 </div>
-<div class="p-4 relative z-10">
+<div class="p-4 relative z-10 dark:bg-black/30 dark:backdrop-blur-sm dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]">
 <h3 class="font-semibold tracking-tight">{title}</h3>
 {subtitle && <p class="opacity-70 text-sm mt-1">{subtitle}</p>}
 {tags.length > 0 && (

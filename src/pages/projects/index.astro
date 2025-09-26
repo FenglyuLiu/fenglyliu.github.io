@@ -5,12 +5,25 @@ import { getAllProjects } from '../../lib/content.js'
 const projects = await getAllProjects()
 ---
 <BaseLayout title="Projects — Portfolio">
-<section class="py-10">
+
+<!-- 两盏光源背景效果 - 固定在视窗中，只在项目部分区域显示，暗夜模式 -->
+<div class="fixed inset-0 pointer-events-none z-0 dark:block hidden">
+  <!-- 右上角蓝色光源 -->
+  <div class="absolute top-1/4 right-1/4 w-96 h-96 rounded-full" 
+       style="background: radial-gradient(circle, rgba(147, 197, 253, 0.5) 0%, rgba(191, 219, 254, 0.3) 40%, transparent 70%); filter: blur(40px);"></div>
+  <!-- 左下角紫色光源 -->
+  <div class="absolute bottom-1/4 left-1/4 w-80 h-80 rounded-full"
+       style="background: radial-gradient(circle, rgba(196, 181, 253, 0.4) 0%, rgba(221, 214, 254, 0.25) 40%, transparent 80%); filter: blur(35px);"></div>
+</div>
+
+<section class="py-10 relative z-10">
 <h1 class="text-3xl font-semibold tracking-tight">All Projects</h1>
 </section>
-<section class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+<section class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
 {projects.map(p => (
-<ProjectCard title={p.title} subtitle={p.subtitle} cover={p.cover} hoverCover={p.hoverCover} hoverScale={p.hoverScale} hoverTop={p.hoverTop} showHoverImage={p.showHoverImage} href={p.url} tags={p.tags} bgClass={p.bgClass} />
+<div class="relative z-10">
+<ProjectCard title={p.title} subtitle={p.subtitle} cover={p.cover} hoverCover={p.hoverCover} darkCover={p.darkCover} hoverScale={p.hoverScale} hoverTop={p.hoverTop} showHoverImage={p.showHoverImage} href={p.url} tags={p.tags} bgClass={p.bgClass} />
+</div>
 ))}
 </section>
 </BaseLayout>
