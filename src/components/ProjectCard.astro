@@ -3,7 +3,7 @@ const { title, subtitle, cover, hoverCover = '', darkCover = '', hoverScale = 1.
 const hasOpacityClass = typeof bgClass === 'string' && bgClass.includes('opacity-')
 const hasDarkClass = typeof bgClass === 'string' && bgClass.includes('dark:')
 ---
-<a href={href} class={`group relative block rounded-xl overflow-hidden border border-black/10 dark:border-white/15 hover:shadow-lg hover:shadow-gray-200/50 dark:hover:shadow-lg dark:hover:shadow-white/50 transform-gpu hover:scale-[1.02] transition-all duration-200 will-change-transform dark:backdrop-blur-xl dark:bg-white/20 dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2)] dark:before:absolute dark:before:inset-0 dark:before:rounded-xl dark:before:bg-gradient-to-br dark:before:from-white/20 dark:before:via-transparent dark:before:to-transparent dark:before:pointer-events-none dark:before:opacity-0 dark:group-hover:before:opacity-100 dark:before:transition-opacity dark:before:duration-300`}>
+<a href={href} class={`group relative block rounded-xl overflow-hidden border border-black/10 dark:border-white/15 hover:shadow-lg hover:shadow-gray-200/50 dark:hover:shadow-lg dark:hover:shadow-white/50 transform-gpu hover:scale-[1.02] transition-all duration-200 will-change-transform dark:backdrop-blur-xl dark:bg-white/20 dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2)] dark:before:absolute dark:before:inset-0 dark:before:rounded-xl dark:before:bg-gradient-to-br dark:before:from-white/20 dark:before:via-transparent dark:before:to-transparent dark:before:pointer-events-none dark:before:opacity-0 dark:group-hover:before:opacity-100 dark:before:transition-opacity dark:before:duration-300 h-full flex flex-col`}>
 {bgClass && (
 <div class={`absolute inset-0 ${bgClass} ${hasOpacityClass ? '' : 'opacity-40 group-hover:opacity-60'} transition-opacity duration-200 pointer-events-none z-0`}></div>
 )}
@@ -21,11 +21,11 @@ const hasDarkClass = typeof bgClass === 'string' && bgClass.includes('dark:')
 <img src={hoverCover} alt={`${title} hover`} style={{ top: hoverTop, transform: `translate(-50%, -50%) scale(${hoverScale})` }} class="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 w-auto h-auto max-w-full max-h-full object-contain opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" loading="lazy" />
 )}
 </div>
-<div class="p-4 relative z-10 dark:bg-black/30 dark:backdrop-blur-sm dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]">
+<div class="p-4 relative z-10 dark:bg-black/30 dark:backdrop-blur-sm dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] flex-1 flex flex-col">
 <h3 class="font-semibold tracking-tight">{title}</h3>
 {subtitle && <p class="opacity-70 text-sm mt-1">{subtitle}</p>}
 {tags.length > 0 && (
-<ul class="flex flex-wrap gap-2 mt-3 text-xs opacity-80">
+<ul class="flex flex-wrap gap-2 mt-4 text-xs opacity-80">
 {tags.map(t => <li class="px-2 py-0.5 rounded-full border border-black/10 dark:border-white/10">{t}</li>)}
 </ul>
 )}
