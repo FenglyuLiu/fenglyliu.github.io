@@ -2,11 +2,28 @@
 import BaseLayout from '../layouts/BaseLayout.astro'
 import ProjectCard from '../components/ProjectCard.astro'
 import { getAllProjects } from '../lib/content.js'
+import LightRays from '../components/LightRays.jsx'
 const projects = await getAllProjects()
 ---
 <BaseLayout title="Felicity Liu" description="Personal Website for Design&research projects and Photography masterpieces.">
 
 <section class="min-h-screen flex flex-col items-center justify-center text-center px-4 -mt-16 relative overflow-hidden z-10">
+<!-- LightRays 动画背景 - 仅在暗色模式显示 -->
+<div class="hidden dark:block" style={{ width: '100vw', height: '100vh', position: 'fixed', top: '0', left: '0', zIndex: 1 }}>
+<LightRays
+  raysOrigin="top-center"
+  raysColor="#ffffff"
+  raysSpeed={1.5}
+  lightSpread={0.8}
+  rayLength={1.2}
+  followMouse={true}
+  mouseInfluence={0.1}
+  noiseAmount={0.1}
+  distortion={0.05}
+  className="custom-rays"
+  client:load
+/>
+</div>
 <h2 class="font-semibold tracking-normal leading-loose text-lg sm:text-xl md:text-2xl relative z-10">
 <span class="block">👋 Hello! I'm Felicity.</span>
 <span class="block">A Designer with 6 years of experience and 4 years in HCI,</span>
@@ -20,8 +37,9 @@ const projects = await getAllProjects()
 </section>
 
 
-<!-- 两盏光源背景效果 - 固定在视窗中，只在项目部分区域显示，暗夜模式 -->
-<div class="fixed inset-0 pointer-events-none z-0 dark:block hidden">
+<section id="projects" class="relative grid sm:grid-cols-2 lg:grid-cols-2 gap-8 -mt-32 pt-16 z-10">
+<!-- 两盏光源背景效果 - 只在项目部分区域显示，暗夜模式 -->
+<div class="absolute inset-0 pointer-events-none z-0 dark:block hidden">
   <!-- 右上角蓝色光源 -->
   <div class="absolute top-1/4 right-1/4 w-96 h-96 rounded-full" 
        style="background: radial-gradient(circle, rgba(147, 197, 253, 0.5) 0%, rgba(191, 219, 254, 0.3) 40%, transparent 70%); filter: blur(40px);"></div>
@@ -29,8 +47,6 @@ const projects = await getAllProjects()
   <div class="absolute bottom-1/4 left-1/4 w-80 h-80 rounded-full"
        style="background: radial-gradient(circle, rgba(196, 181, 253, 0.4) 0%, rgba(221, 214, 254, 0.25) 40%, transparent 80%); filter: blur(35px);"></div>
 </div>
-
-<section id="projects" class="relative grid sm:grid-cols-2 lg:grid-cols-2 gap-8 -mt-32 pt-16 z-10">
 {projects.map(p => (
 <div class="relative z-10">
 <ProjectCard title={p.title} subtitle={p.subtitle} cover={p.cover} hoverCover={p.hoverCover} darkCover={p.darkCover} hoverScale={p.hoverScale} hoverTop={p.hoverTop} showHoverImage={p.showHoverImage} href={p.url} tags={p.tags} bgClass={p.bgClass} />

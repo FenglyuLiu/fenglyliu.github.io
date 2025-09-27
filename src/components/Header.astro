@@ -7,11 +7,36 @@ const links = [
 { href: '/contact', label: 'Contact' }
 ]
 ---
-<header class="sticky top-0 z-50 backdrop-blur bg-white/70 dark:bg-gray-900/70 border-b border-black/10 dark:border-white/10">
+<header class="sticky top-0 z-50 backdrop-blur bg-white/50 dark:bg-gray-900/50 border-b border-black/10 dark:border-white/10">
 <nav class="mx-auto max-w-6xl px-4 h-14 flex items-center justify-between">
 <a href="/" class="font-semibold tracking-tight">Felicity Liu</a>
-<ul class="flex gap-6 text-sm">
+<!-- 桌面端导航 -->
+<ul class="hidden md:flex gap-6 text-sm">
 {links.map(l => <li><a class="hover:underline" href={l.href}>{l.label}</a></li>)}
 </ul>
+<!-- 移动端汉堡菜单按钮 -->
+<button id="mobile-menu-button" class="md:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+</svg>
+</button>
 </nav>
+<!-- 移动端菜单 -->
+<div id="mobile-menu" class="md:hidden hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur border-b border-black/10 dark:border-white/10">
+<ul class="px-4 py-2 space-y-2">
+{links.map(l => <li><a class="block py-2 text-sm hover:underline" href={l.href}>{l.label}</a></li>)}
+</ul>
+</div>
 </header>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+const mobileMenuButton = document.getElementById('mobile-menu-button');
+const mobileMenu = document.getElementById('mobile-menu');
+if (mobileMenuButton && mobileMenu) {
+mobileMenuButton.addEventListener('click', function() {
+mobileMenu.classList.toggle('hidden');
+});
+}
+});
+</script>
