@@ -9,7 +9,6 @@ export const photoOrder = {
     'DSC00143.jpg',
     'DSC00146.jpg',
     'DSC00253-2.jpg',
-    'DSC00371.jpg',
     'DSC00389.jpg',
     'DSC00397.jpg',
     'DSC00556.jpg',
@@ -27,35 +26,35 @@ export const photoOrder = {
   
   landscapes: [
     // 风景照片顺序 - 按您想要的顺序排列
-    'DSC00518.jpg',
     'DSC00780.JPG',
+    'DSC00518.jpg',
     'DSC02106.JPG',
     'DSC02231.JPG'
   ],
   
   flowers: [
     // 花花照片顺序 - 按您想要的顺序排列
-    'DSC00985.JPG',
-    'DSC01055.jpg',
-    'DSC01076.JPG',
-    'DSC02236.jpg',
-    'IMG_3681.JPG',
     'IMG_3683.JPG',
+    'DSC02236.jpg',
+    'DSC01055.jpg',
+    'DSC00985.JPG',
+    'DSC01076.JPG',
+    'IMG_3681.JPG',
     'IMG_3685.JPG'
   ],
   
   cities: [
     // 城市照片顺序 - 按您想要的顺序排列
+    'DSC02362.jpg',
+    'DSC02268.jpg',
     'DSC01498 2.jpg',
     'DSC01562 2.jpg',
     'DSC01691 2.jpg',
     'DSC01811 2.jpg',
     'DSC01971.jpg',
     'DSC02242.jpg',
-    'DSC02262.jpg',
-    'DSC02268.jpg',
     'DSC02273.JPG',
-    'DSC02362.JPG',
+    'DSC02262.JPG',
     'DSC02371.JPG'
   ]
 }
