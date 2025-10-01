@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro'
 import ProjectCard from '../components/ProjectCard.astro'
 import { getAllProjects } from '../lib/content.js'
 import LightRays from '../components/LightRays.jsx'
+import WarmLight from '../components/WarmLight.jsx'
 const projects = await getAllProjects()
 ---
 <BaseLayout title="Felicity Liu" description="Personal Website for Design&research projects and Photography masterpieces.">
@@ -21,6 +22,23 @@ const projects = await getAllProjects()
   noiseAmount={0.1}
   distortion={0.05}
   className="custom-rays"
+  client:load
+/>
+</div>
+
+<!-- WarmLight 动画背景 - 仅在明亮模式显示 -->
+<div class="block dark:hidden" style={{ width: '100vw', height: '100vh', position: 'fixed', top: '0', left: '0', zIndex: 1 }}>
+<WarmLight
+  raysOrigin="top-center"
+  raysColor="#FFF2CC"
+  raysSpeed={1.2}
+  lightSpread={1.0}
+  rayLength={1.0}
+  followMouse={true}
+  mouseInfluence={0.08}
+  noiseAmount={0.05}
+  distortion={0.03}
+  className="custom-warm-light"
   client:load
 />
 </div>
