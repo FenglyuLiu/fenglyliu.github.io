@@ -156,4 +156,33 @@ const sections = sidebarSections.length > 0 ? sidebarSections : [
   }
   
   document.addEventListener('DOMContentLoaded', initFloatingNav);
+  
+  // Slide滚动动画控制
+  function initSlideAnimations() {
+    const slideImages = document.querySelectorAll('.slide-image-large');
+    if (slideImages.length === 0) return;
+    
+    // 创建Intersection Observer
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // 添加延迟，让动画更流畅
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, 100);
+        }
+      });
+    }, {
+      threshold: 0.1, // 当元素10%可见时触发
+      rootMargin: '0px 0px -50px 0px' // 提前50px触发
+    });
+    
+    // 观察所有slide图片
+    slideImages.forEach((slide) => {
+      observer.observe(slide);
+    });
+  }
+  
+  // 初始化slide动画
+  document.addEventListener('DOMContentLoaded', initSlideAnimations);
 </script>

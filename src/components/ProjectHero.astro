@@ -2,7 +2,7 @@
 const { title, subtitle, slug } = Astro.props
 ---
 
-<div class="project-hero">
+<div class={`project-hero ${slug === 'referral-research' ? 'referral-hero' : ''}`}>
   <div class="hero-content">
     <!-- Main Title -->
     <h1 class="hero-title">
@@ -15,6 +15,36 @@ const { title, subtitle, slug } = Astro.props
         {subtitle}
       </p>
     )}
+    
+    <!-- Stats for referral project -->
+    {slug === 'referral-research' && (
+      <div class="hero-stats-inline">
+        <div class="stat-item">
+          <span class="stat-number">120K</span>
+          <span class="stat-label">Users Exposed</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">0.78%</span>
+          <span class="stat-label">Conversion Rate</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">+20%</span>
+          <span class="stat-label">Improvement</span>
+        </div>
+      </div>
+    )}
+    
+    <!-- Project Meta Info -->
+    {slug === 'referral-research' && (
+      <div class="hero-meta">
+        <div class="meta-item">
+          <strong>Role:</strong> UX Researcher
+        </div>
+        <div class="meta-item">
+          <strong>Timeline:</strong> 2 months (Jan-Feb 2022)
+        </div>
+      </div>
+    )}
   </div>
 </div>
 
@@ -22,6 +52,14 @@ const { title, subtitle, slug } = Astro.props
   .project-hero {
     padding: 3rem 0 2rem 0;
     margin-bottom: 2rem;
+  }
+  
+  .referral-hero {
+    background: linear-gradient(135deg, #ff8c00 0%, #ff6b35 100%);
+    color: white;
+    padding: 4rem 2rem;
+    margin: 0 -2rem 2rem -2rem;
+    border-radius: 0 0 24px 24px;
   }
   
   .hero-content {
@@ -38,6 +76,12 @@ const { title, subtitle, slug } = Astro.props
     text-align: center;
   }
   
+  .referral-hero .hero-title {
+    color: white;
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+  }
+  
   .dark .hero-title {
     color: #f9fafb;
   }
@@ -46,13 +90,62 @@ const { title, subtitle, slug } = Astro.props
     font-size: 1.25rem;
     line-height: 1.6;
     color: #6b7280;
-    margin: 0 auto;
+    margin: 0 auto 2rem auto;
     max-width: 65ch;
     text-align: center;
   }
   
+  .referral-hero .hero-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  
   .dark .hero-subtitle {
     color: #9ca3af;
+  }
+  
+  /* Hero Stats Inline */
+  .hero-stats-inline {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+  
+  .stat-item {
+    text-align: center;
+  }
+  
+  .stat-item .stat-number {
+    font-size: 3rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.5rem;
+    color: white;
+  }
+  
+  .stat-item .stat-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .hero-meta {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    justify-content: center;
+    font-size: 0.9rem;
+    opacity: 0.9;
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .meta-item strong {
+    font-weight: 600;
   }
   
   @media (max-width: 768px) {
@@ -60,12 +153,33 @@ const { title, subtitle, slug } = Astro.props
       padding: 2rem 0 1.5rem 0;
     }
     
+    .referral-hero {
+      padding: 3rem 1rem;
+      margin: 0 -1rem 2rem -1rem;
+    }
+    
     .hero-title {
       font-size: 2.25rem;
     }
     
+    .referral-hero .hero-title {
+      font-size: 2.5rem;
+    }
+    
     .hero-subtitle {
       font-size: 1.125rem;
+    }
+    
+    .referral-hero .hero-subtitle {
+      font-size: 1.25rem;
+    }
+    
+    .hero-stats-inline {
+      gap: 2rem;
+    }
+    
+    .stat-item .stat-number {
+      font-size: 2rem;
     }
   }
 </style>
