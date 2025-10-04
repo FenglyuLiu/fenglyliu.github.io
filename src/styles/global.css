@@ -14,7 +14,28 @@ html {
   color-scheme: light dark; 
   scroll-padding-top: 4rem; /* 为固定header留出空间 (h-14 = 3.5rem + 0.5rem缓冲) */
 }
+
 body { @apply bg-white text-black dark:bg-black dark:text-white antialiased; }
+
+/* Dark mode section titles - 强制白色 */
+html.dark .section-title,
+.dark .section-title,
+html.dark h2.section-title,
+.dark h2.section-title,
+html.dark .section-container h2,
+.dark .section-container h2 {
+  color: #ffffff !important;
+}
+
+/* Dark mode for all project themes */
+html.dark .referral-theme .section-title,
+.dark .referral-theme .section-title,
+html.dark .growth-theme .section-title,
+.dark .growth-theme .section-title,
+html.dark .satisfaction-theme .section-title,
+.dark .satisfaction-theme .section-title {
+  color: #ffffff !important;
+}
 
 
 /* 1px 细线体系 */

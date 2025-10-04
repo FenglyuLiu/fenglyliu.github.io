@@ -2,7 +2,7 @@
 const { title, subtitle, slug } = Astro.props
 ---
 
-<div class={`project-hero ${slug === 'referral-research' ? 'referral-hero' : ''}`}>
+<div class={`project-hero ${slug === 'referral-research' ? 'referral-hero' : slug === 'annual-satisfaction' ? 'satisfaction-hero' : slug === 'growth-tactics' ? 'growth-hero' : ''}`}>
   <div class="hero-content">
     <!-- Main Title -->
     <h1 class="hero-title">
@@ -34,6 +34,42 @@ const { title, subtitle, slug } = Astro.props
       </div>
     )}
     
+    <!-- Stats for annual satisfaction project -->
+    {slug === 'annual-satisfaction' && (
+      <div class="hero-stats-inline">
+        <div class="stat-item">
+          <span class="stat-number">2,266</span>
+          <span class="stat-label">Survey Responses</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">4.10</span>
+          <span class="stat-label">Satisfaction Score</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">94.1%</span>
+          <span class="stat-label">Valid Rate</span>
+        </div>
+      </div>
+    )}
+    
+    <!-- Stats for growth tactics project -->
+    {slug === 'growth-tactics' && (
+      <div class="hero-stats-inline">
+        <div class="stat-item">
+          <span class="stat-number">Japan</span>
+          <span class="stat-label">Market Focus</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">Livestream</span>
+          <span class="stat-label">Conversion</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">Creator</span>
+          <span class="stat-label">Barriers</span>
+        </div>
+      </div>
+    )}
+    
     <!-- Project Meta Info -->
     {slug === 'referral-research' && (
       <div class="hero-meta">
@@ -42,6 +78,30 @@ const { title, subtitle, slug } = Astro.props
         </div>
         <div class="meta-item">
           <strong>Timeline:</strong> 2 months (Jan-Feb 2022)
+        </div>
+      </div>
+    )}
+    
+    <!-- Project Meta Info for annual satisfaction -->
+    {slug === 'annual-satisfaction' && (
+      <div class="hero-meta">
+        <div class="meta-item">
+          <strong>Role:</strong> UX Researcher
+        </div>
+        <div class="meta-item">
+          <strong>Timeline:</strong> 2 months (Feb-Mar 2022)
+        </div>
+      </div>
+    )}
+    
+    <!-- Project Meta Info for growth tactics -->
+    {slug === 'growth-tactics' && (
+      <div class="hero-meta">
+        <div class="meta-item">
+          <strong>Role:</strong> UX Researcher
+        </div>
+        <div class="meta-item">
+          <strong>Timeline:</strong> 2 months (Jun-Jul 2023)
         </div>
       </div>
     )}
@@ -55,7 +115,23 @@ const { title, subtitle, slug } = Astro.props
   }
   
   .referral-hero {
-    background: linear-gradient(135deg, #ff8c00 0%, #ff6b35 100%);
+    background: linear-gradient(135deg, #FFC800 0%, #FF232A 100%);
+    color: white;
+    padding: 4rem 2rem;
+    margin: 0 -2rem 2rem -2rem;
+    border-radius: 0 0 24px 24px;
+  }
+  
+  .satisfaction-hero {
+    background: linear-gradient(135deg, #F98207 0%, #E5181F 100%);
+    color: white;
+    padding: 4rem 2rem;
+    margin: 0 -2rem 2rem -2rem;
+    border-radius: 0 0 24px 24px;
+  }
+  
+  .growth-hero {
+    background: linear-gradient(135deg, #00FFF2 0%, #FF0033 100%);
     color: white;
     padding: 4rem 2rem;
     margin: 0 -2rem 2rem -2rem;
@@ -82,6 +158,18 @@ const { title, subtitle, slug } = Astro.props
     margin-bottom: 1rem;
   }
   
+  .satisfaction-hero .hero-title {
+    color: white;
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .growth-hero .hero-title {
+    color: white;
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+  }
+  
   .dark .hero-title {
     color: #f9fafb;
   }
@@ -96,6 +184,18 @@ const { title, subtitle, slug } = Astro.props
   }
   
   .referral-hero .hero-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  
+  .satisfaction-hero .hero-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  
+  .growth-hero .hero-subtitle {
     color: rgba(255, 255, 255, 0.9);
     font-size: 1.5rem;
     margin-bottom: 3rem;
@@ -158,6 +258,16 @@ const { title, subtitle, slug } = Astro.props
       margin: 0 -1rem 2rem -1rem;
     }
     
+    .satisfaction-hero {
+      padding: 3rem 1rem;
+      margin: 0 -1rem 2rem -1rem;
+    }
+    
+    .growth-hero {
+      padding: 3rem 1rem;
+      margin: 0 -1rem 2rem -1rem;
+    }
+    
     .hero-title {
       font-size: 2.25rem;
     }
@@ -166,11 +276,27 @@ const { title, subtitle, slug } = Astro.props
       font-size: 2.5rem;
     }
     
+    .satisfaction-hero .hero-title {
+      font-size: 2.5rem;
+    }
+    
+    .growth-hero .hero-title {
+      font-size: 2.5rem;
+    }
+    
     .hero-subtitle {
       font-size: 1.125rem;
     }
     
     .referral-hero .hero-subtitle {
+      font-size: 1.25rem;
+    }
+    
+    .satisfaction-hero .hero-subtitle {
+      font-size: 1.25rem;
+    }
+    
+    .growth-hero .hero-subtitle {
       font-size: 1.25rem;
     }
     

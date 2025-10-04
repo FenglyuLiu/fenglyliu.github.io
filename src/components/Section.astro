@@ -16,7 +16,7 @@ const sectionId = generateId(heading);
 ---
 <section class="section-container" id={sectionId}>
   <div class="section-content">
-    {heading && <h2 class="section-title">{heading}</h2>}
+    {heading && <h2 class="section-title" style="color: var(--section-title-color, #111827);">{heading}</h2>}
     <div class="section-body">
       <slot />
     </div>
@@ -24,6 +24,14 @@ const sectionId = generateId(heading);
 </section>
 
 <style>
+  :root {
+    --section-title-color: #111827;
+  }
+  
+  html.dark {
+    --section-title-color: #ffffff;
+  }
+  
   .section-container {
     min-height: 60vh;
     display: flex;
@@ -59,7 +67,31 @@ const sectionId = generateId(heading);
     transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
   }
   
-  .dark .section-title {
+  /* Dark mode样式 - 最高优先级 */
+  html.dark .section-title,
+  .dark .section-title,
+  html.dark .section-container .section-title,
+  .dark .section-container .section-title {
+    color: #ffffff !important;
+  }
+  
+  /* Growth Tactics项目主题 */
+  .growth-theme .section-title {
+    color: #111827;
+  }
+  
+  html.dark .growth-theme .section-title,
+  .dark .growth-theme .section-title {
+    color: #ffffff !important;
+  }
+  
+  /* Annual Satisfaction项目主题 */
+  .satisfaction-theme .section-title {
+    color: #111827;
+  }
+  
+  html.dark .satisfaction-theme .section-title,
+  .dark .satisfaction-theme .section-title {
     color: #ffffff !important;
   }
   
@@ -68,6 +100,7 @@ const sectionId = generateId(heading);
     color: #dc2626 !important;
   }
   
+  html.dark .referral-theme .section-title,
   .dark .referral-theme .section-title {
     color: #ffffff !important;
   }

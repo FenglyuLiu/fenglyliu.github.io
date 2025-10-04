@@ -37,7 +37,7 @@ const sections = sidebarSections.length > 0 ? sidebarSections : [
   { id: 'personal-reflections', title: 'Personal Reflections' }
 ]
 ---
-<BaseLayout title={`${title} — Portfolio`} hideThemeToggle={true}>
+<BaseLayout title={`${title} — Portfolio`} hideThemeToggle={false}>
   <!-- Hero Header -->
   <ProjectHero 
     title={title}
@@ -46,14 +46,14 @@ const sections = sidebarSections.length > 0 ? sidebarSections : [
   />
   
   <!-- 主要内容 -->
-  <article class={`prose prose-neutral dark:prose-invert max-w-none main-content ${slug === 'referral-research' ? 'referral-theme' : ''}`}>
+  <article class={`prose prose-neutral dark:prose-invert max-w-none main-content ${slug === 'referral-research' ? 'referral-theme' : slug === 'growth-tactics' ? 'growth-theme' : slug === 'annual-satisfaction' ? 'satisfaction-theme' : ''}`}>
     <!-- Project Content -->
     <module.default components={{ RichImage, VideoEmbed, PrototypeEmbed }} />
   </article>
   
   <!-- 浮窗导航 -->
   <div class="floating-nav-container">
-    <SidebarNav sections={sections} theme={slug === 'referral-research' ? 'referral-theme' : ''} />
+    <SidebarNav sections={sections} theme={slug === 'referral-research' ? 'referral-theme' : slug === 'growth-tactics' ? 'growth-theme' : slug === 'annual-satisfaction' ? 'satisfaction-theme' : ''} />
   </div>
 </BaseLayout>
 

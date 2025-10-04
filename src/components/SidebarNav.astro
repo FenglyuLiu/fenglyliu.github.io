@@ -64,6 +64,28 @@ const { sections = [], theme = '' } = Astro.props
     backdrop-filter: blur(20px);
   }
   
+  /* Growth Tactics项目主题 - 磨砂玻璃效果 */
+  .growth-theme.floating-nav {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+  }
+  
+  .dark .growth-theme.floating-nav {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+  }
+  
+  /* Annual Satisfaction项目主题 - 磨砂玻璃效果 */
+  .satisfaction-theme.floating-nav {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+  }
+  
+  .dark .satisfaction-theme.floating-nav {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+  }
+  
   
   .nav-content {
     width: 100%;
@@ -200,6 +222,62 @@ const { sections = [], theme = '' } = Astro.props
     background-color: #7c2d12;
     color: #fed7aa;
     border-left-color: #ea580c;
+  }
+  
+  /* Growth Tactics项目红色主题 - 替换蓝色系 */
+  .growth-theme .sidebar-link.active {
+    background-color: #fef2f2;
+    color: #ff0033;
+    border-left-color: #ff0033;
+    font-weight: 500;
+  }
+  
+  .dark .growth-theme .sidebar-link.active {
+    background-color: #7f1d1d;
+    color: #ff6b6b;
+    border-left-color: #ff0033;
+  }
+  
+  /* Growth Tactics项目二级导航活跃状态 */
+  .growth-theme .sidebar-sublink.active {
+    background-color: #fef2f2;
+    color: #ff0033;
+    border-left-color: #ff0033;
+    font-weight: 500;
+  }
+  
+  .dark .growth-theme .sidebar-sublink.active {
+    background-color: #7f1d1d;
+    color: #ff6b6b;
+    border-left-color: #ff0033;
+  }
+  
+  /* Annual Satisfaction项目红色主题 - 替换蓝色系 */
+  .satisfaction-theme .sidebar-link.active {
+    background-color: #fef2f2;
+    color: #e5181f;
+    border-left-color: #e5181f;
+    font-weight: 500;
+  }
+  
+  .dark .satisfaction-theme .sidebar-link.active {
+    background-color: #7f1d1d;
+    color: #f87171;
+    border-left-color: #e5181f;
+  }
+  
+  /* Annual Satisfaction项目二级导航活跃状态 */
+  .satisfaction-theme .sidebar-sublink.active {
+    background-color: #fef2f2;
+    color: #e5181f;
+    border-left-color: #e5181f;
+    font-weight: 500;
+  }
+  
+  .dark .satisfaction-theme .sidebar-sublink.active {
+    background-color: #7f1d1d;
+    color: #f87171;
+    border-left-color: #e5181f;
   }
   
   @media (max-width: 1024px) {
