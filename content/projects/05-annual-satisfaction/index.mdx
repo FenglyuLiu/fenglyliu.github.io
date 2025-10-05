@@ -20,7 +20,11 @@ sidebarSections: [
   { id: 'findings', title: 'Key Findings' },
   { id: 'recommendations', title: 'Recommendations' },
   { id: 'reflection', title: 'Reflection' },
-  { id: 'appendix', title: 'Appendix' }
+  { id: 'appendix', title: 'Appendix', children: [
+    { id: 'pca-weights', title: 'A1. PCA Weights' },
+    { id: 'correlation-analysis', title: 'A2. Correlation' },
+    { id: 'competitor-comparison', title: 'A3. Competitor' }
+  ]}
 ]
 ---
 
@@ -30,13 +34,13 @@ import { Section, RichImage } from '@/components'
 <div class="slide-image-large">
 <RichImage src="/projects/annual-satisfaction/slide-1.png" alt="Problem Statement" />
 </div>
-</Section>
+  </Section>
 
 <Section heading="Research Approach">
 <div class="slide-image-large">
 <RichImage src="/projects/annual-satisfaction/slide-2.png" alt="Research Methodology" />
 </div>
-</Section>
+  </Section>
 
 <Section heading="Satisfaction Overview">
 <div class="slide-image-large">
@@ -90,5 +94,251 @@ import { Section, RichImage } from '@/components'
 
 <div class="appendix-explanation">
 This section contains comprehensive survey analysis, statistical methodology details, and supporting evidence for the insights presented in the main case study.
+</div>
+
+<div class="appendix-content">
+  <div class="appendix-section" id="pca-weights">
+    <h3 class="appendix-subtitle">A1. PCA Weights Analysis</h3>
+    <div class="pca-analysis">
+      <p class="analysis-description">
+        Using PCA to calculate each feature's relative importance in overall satisfaction (higher weight = greater impact)
+      </p>
+      
+      <div class="pca-table-container">
+        <table class="pca-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Feature Dimension</th>
+              <th>Weight</th>
+              <th>Visual Weight</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="rank-badge top-3">1</span></td>
+              <td>Live Interaction Tools</td>
+              <td><span class="weight-value">0.101</span></td>
+              <td><div class="weight-bar" style="width: 100%;"></div></td>
+            </tr>
+            <tr>
+              <td><span class="rank-badge top-3">2</span></td>
+              <td>Course Details</td>
+              <td><span class="weight-value">0.099</span></td>
+              <td><div class="weight-bar" style="width: 98%;"></div></td>
+            </tr>
+            <tr>
+              <td><span class="rank-badge top-3">3</span></td>
+              <td>Study Report Usefulness</td>
+              <td><span class="weight-value">0.096</span></td>
+              <td><div class="weight-bar" style="width: 95%;"></div></td>
+            </tr>
+            <tr>
+              <td><span class="rank-badge">4</span></td>
+              <td>Order Tracking</td>
+              <td><span class="weight-value">0.092</span></td>
+              <td><div class="weight-bar" style="width: 91%;"></div></td>
+            </tr>
+            <tr>
+              <td><span class="rank-badge">5</span></td>
+              <td>Rewards Store Items</td>
+              <td><span class="weight-value">0.090</span></td>
+              <td><div class="weight-bar" style="width: 89%;"></div></td>
+            </tr>
+            <tr>
+              <td><span class="rank-badge">6</span></td>
+              <td>Coin Rewards</td>
+              <td><span class="weight-value">0.089</span></td>
+              <td><div class="weight-bar" style="width: 88%;"></div></td>
+            </tr>
+            <tr>
+              <td><span class="rank-badge">7</span></td>
+              <td>Course Selection</td>
+              <td><span class="weight-value">0.089</span></td>
+              <td><div class="weight-bar" style="width: 88%;"></div></td>
+            </tr>
+            <tr>
+              <td><span class="rank-badge">8</span></td>
+              <td>Payment Process</td>
+              <td><span class="weight-value">0.079</span></td>
+              <td><div class="weight-bar" style="width: 78%;"></div></td>
+            </tr>
+            <tr>
+              <td><span class="rank-badge">9</span></td>
+              <td>Study Materials</td>
+              <td><span class="weight-value">0.076</span></td>
+              <td><div class="weight-bar" style="width: 75%;"></div></td>
+            </tr>
+            <tr>
+              <td><span class="rank-badge">10</span></td>
+              <td>Study Reports Access</td>
+              <td><span class="weight-value">0.066</span></td>
+              <td><div class="weight-bar" style="width: 65%;"></div></td>
+            </tr>
+            <tr>
+              <td><span class="rank-badge">11</span></td>
+              <td>After-Class Exercises</td>
+              <td><span class="weight-value">0.063</span></td>
+              <td><div class="weight-bar" style="width: 62%;"></div></td>
+            </tr>
+            <tr>
+              <td><span class="rank-badge">12</span></td>
+              <td>Live/Replay Access</td>
+              <td><span class="weight-value">0.060</span></td>
+              <td><div class="weight-bar" style="width: 59%;"></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="insight-box">
+        <div class="insight-label">Key Insight</div>
+        <div class="insight-text">
+          The top 3 features (Live Interaction, Course Details, Study Reports) account for 29.6% of total variance. 
+          Rewards-related features (ranks 5-6) have combined weight of 0.179, explaining why satisfaction dropped 8% when these deteriorated.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="appendix-section" id="correlation-analysis">
+    <h3 class="appendix-subtitle">A2. Correlation Analysis</h3>
+    <div class="correlation-analysis">
+      <p class="analysis-description">
+        Spearman rank correlation coefficients showing relationship strength between satisfaction and behavioral outcomes
+      </p>
+      
+      <div class="correlation-grid">
+        <div class="correlation-card">
+          <div class="corr-label">Overall Satisfaction ↔ Renewal Intent</div>
+          <div class="corr-value strong">0.578</div>
+          <div class="corr-interpretation">Strong positive correlation<br />(p < 0.001)</div>
+        </div>
+
+        <div class="correlation-card">
+          <div class="corr-label">Rewards Satisfaction ↔ Renewal Intent</div>
+          <div class="corr-value moderate">0.412</div>
+          <div class="corr-interpretation">Moderate positive correlation<br />(p < 0.001)</div>
+        </div>
+
+        <div class="correlation-card">
+          <div class="corr-label">Course Details ↔ NPS</div>
+          <div class="corr-value moderate">0.386</div>
+          <div class="corr-interpretation">Moderate positive correlation<br />(p < 0.001)</div>
+        </div>
+
+        <div class="correlation-card">
+          <div class="corr-label">Live Interaction ↔ Engagement</div>
+          <div class="corr-value strong">0.524</div>
+          <div class="corr-interpretation">Strong positive correlation<br />(p < 0.001)</div>
+        </div>
+      </div>
+      
+      <div class="insight-box">
+        <div class="insight-label">Statistical Validation</div>
+        <div class="insight-text">
+          <strong>r = 0.578</strong> between overall satisfaction and renewal intent confirms satisfaction is a meaningful predictor of retention.
+          Every 1-point increase in satisfaction score corresponds to approximately 12-15% higher renewal probability.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="appendix-section" id="competitor-comparison">
+    <h3 class="appendix-subtitle">A3. Competitor Comparison</h3>
+    <div class="competitor-analysis">
+      <p class="analysis-description">
+        Head-to-head comparison of key features across major EdTech platforms
+      </p>
+      
+      <div class="competitor-grid">
+        <div class="competitor-card">
+          <div class="competitor-header">Xueersi (学而思)</div>
+          <div class="competitor-body">
+            <div class="feature-row">
+              <span class="feature-name">Course Grouping</span>
+              <span class="feature-status">✅</span>
+            </div>
+            <div class="feature-row">
+              <span class="feature-name">Teacher Comparison</span>
+              <span class="feature-status">✅</span>
+            </div>
+            <div class="feature-row">
+              <span class="feature-name">Trial Videos Upfront</span>
+              <span class="feature-status">⚠️</span>
+            </div>
+            <div class="feature-row">
+              <span class="feature-name">Reward Price Range</span>
+              <span class="feature-status feature-status-text">100-40K</span>
+            </div>
+            <div class="feature-row">
+              <span class="feature-name">Validity Period</span>
+              <span class="feature-status feature-status-text">2-3 years</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="competitor-card">
+          <div class="competitor-header">Zuoyebang (作业帮)</div>
+          <div class="competitor-body">
+            <div class="feature-row">
+              <span class="feature-name">Course Grouping</span>
+              <span class="feature-status">⚠️</span>
+            </div>
+            <div class="feature-row">
+              <span class="feature-name">Teacher Comparison</span>
+              <span class="feature-status">❌</span>
+            </div>
+            <div class="feature-row">
+              <span class="feature-name">Trial Videos Upfront</span>
+              <span class="feature-status">✅</span>
+            </div>
+            <div class="feature-row">
+              <span class="feature-name">Chapter Previews</span>
+              <span class="feature-status">✅</span>
+            </div>
+            <div class="feature-row">
+              <span class="feature-name">Student Reviews</span>
+              <span class="feature-status">✅</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="competitor-card">
+          <div class="competitor-header gaotu">Gaotu (高途)</div>
+          <div class="competitor-body">
+            <div class="feature-row">
+              <span class="feature-name">Course Grouping</span>
+              <span class="feature-status">❌</span>
+            </div>
+            <div class="feature-row">
+              <span class="feature-name">Teacher Comparison</span>
+              <span class="feature-status">❌</span>
+            </div>
+            <div class="feature-row">
+              <span class="feature-name">Trial Videos Upfront</span>
+              <span class="feature-status">❌</span>
+            </div>
+            <div class="feature-row">
+              <span class="feature-name">Reward Price Range</span>
+              <span class="feature-status feature-status-text">5K-60K</span>
+            </div>
+            <div class="feature-row">
+              <span class="feature-name">Validity Period</span>
+              <span class="feature-status feature-status-text">1-2 years</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="insight-box">
+        <div class="insight-label">Competitive Gap</div>
+        <div class="insight-text">
+          Gaotu lags competitors in 5 out of 7 key discovery features. 47% of users report confusion during course selection—
+          directly tied to lack of grouping and comparison tools that Xueersi has perfected.
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 </Section>
