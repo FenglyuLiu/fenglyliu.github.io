@@ -2,7 +2,7 @@
 const { title, subtitle, slug } = Astro.props
 ---
 
-<div class={`project-hero ${slug === 'referral-research' ? 'referral-hero' : slug === 'annual-satisfaction' ? 'satisfaction-hero' : slug === 'growth-tactics' ? 'growth-hero' : ''}`}>
+<div class={`project-hero ${slug === 'referral-research' ? 'referral-hero' : slug === 'annual-satisfaction' ? 'satisfaction-hero' : slug === 'growth-tactics' ? 'growth-hero' : slug === 'RAI-product' ? 'rai-hero' : ''}`}>
   <div class="hero-content">
     <!-- Main Title -->
     <h1 class="hero-title">
@@ -70,6 +70,24 @@ const { title, subtitle, slug } = Astro.props
       </div>
     )}
     
+    <!-- Stats for RAI product project -->
+    {slug === 'RAI-product' && (
+      <div class="hero-stats-inline">
+        <div class="stat-item">
+          <span class="stat-number">6</span>
+          <span class="stat-label">Months Development</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number text-stat">Full-Stack</span>
+          <span class="stat-label">Product Solution</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number text-stat">AI Safety</span>
+          <span class="stat-label">Focus Area</span>
+        </div>
+      </div>
+    )}
+    
     <!-- Project Meta Info -->
     {slug === 'referral-research' && (
       <div class="hero-meta">
@@ -105,6 +123,18 @@ const { title, subtitle, slug } = Astro.props
         </div>
       </div>
     )}
+    
+    <!-- Project Meta Info for RAI product -->
+    {slug === 'RAI-product' && (
+      <div class="hero-meta">
+        <div class="meta-item">
+          <strong>Role:</strong> Product Manager
+        </div>
+        <div class="meta-item">
+          <strong>Timeline:</strong> 6 months (Sept 2024–Mar 2024)
+        </div>
+      </div>
+    )}
   </div>
 </div>
 
@@ -133,6 +163,14 @@ const { title, subtitle, slug } = Astro.props
   .growth-hero {
     background: linear-gradient(135deg, #00FFF2 0%, #FF0033 100%);
     color: white;
+    padding: 4rem 2rem;
+    margin: 0 -2rem 2rem -2rem;
+    border-radius: 0 0 24px 24px;
+  }
+  
+  .rai-hero {
+    background: linear-gradient(90deg, #ECF8FF 0%, #D8E4FF 100%);
+    color: #1e4a9a;
     padding: 4rem 2rem;
     margin: 0 -2rem 2rem -2rem;
     border-radius: 0 0 24px 24px;
@@ -170,8 +208,24 @@ const { title, subtitle, slug } = Astro.props
     margin-bottom: 1rem;
   }
   
+  .rai-hero .hero-title {
+    background: linear-gradient(90deg, #4E7EDC 0%, #C86492 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+  }
+  
   .dark .hero-title {
     color: #f9fafb;
+  }
+  
+  .dark .rai-hero .hero-title {
+    background: linear-gradient(90deg, #60a5fa 0%, #f472b6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
   
   .hero-subtitle {
@@ -201,6 +255,12 @@ const { title, subtitle, slug } = Astro.props
     margin-bottom: 3rem;
   }
   
+  .rai-hero .hero-subtitle {
+    color: #4a5568;
+    font-size: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  
   .dark .hero-subtitle {
     color: #9ca3af;
   }
@@ -226,12 +286,28 @@ const { title, subtitle, slug } = Astro.props
     color: white;
   }
   
+  .rai-hero .stat-item .stat-number {
+    color: #9170B3;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .rai-hero .stat-item .stat-number.text-stat {
+    font-size: 2.2rem;
+  }
+  
   .stat-item .stat-label {
     font-size: 0.9rem;
     opacity: 0.9;
     text-transform: uppercase;
     letter-spacing: 1px;
     color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .rai-hero .stat-item .stat-label {
+    color: #6b7280;
   }
   
   .hero-meta {
@@ -242,6 +318,10 @@ const { title, subtitle, slug } = Astro.props
     font-size: 0.9rem;
     opacity: 0.9;
     color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .rai-hero .hero-meta {
+    color: #4a5568;
   }
   
   .meta-item strong {
@@ -268,6 +348,11 @@ const { title, subtitle, slug } = Astro.props
       margin: 0 -1rem 2rem -1rem;
     }
     
+    .rai-hero {
+      padding: 3rem 1rem;
+      margin: 0 -1rem 2rem -1rem;
+    }
+    
     .hero-title {
       font-size: 2.25rem;
     }
@@ -281,6 +366,10 @@ const { title, subtitle, slug } = Astro.props
     }
     
     .growth-hero .hero-title {
+      font-size: 2.5rem;
+    }
+    
+    .rai-hero .hero-title {
       font-size: 2.5rem;
     }
     
@@ -300,12 +389,24 @@ const { title, subtitle, slug } = Astro.props
       font-size: 1.25rem;
     }
     
+    .rai-hero .hero-subtitle {
+      font-size: 1.25rem;
+    }
+    
     .hero-stats-inline {
       gap: 2rem;
     }
     
     .stat-item .stat-number {
       font-size: 2rem;
+    }
+    
+    .rai-hero .stat-item .stat-number {
+      height: 2.5rem;
+    }
+    
+    .rai-hero .stat-item .stat-number.text-stat {
+      font-size: 1.6rem;
     }
   }
 </style>

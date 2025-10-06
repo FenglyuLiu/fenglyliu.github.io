@@ -81,6 +81,32 @@
   line-height: 1.6;
 }
 
+/* Large video showcase styling */
+.video-showcase-large {
+  margin: 3rem -10rem 3rem 0;
+  max-width: calc(100% + 10rem);
+  width: calc(100% + 10rem);
+}
+
+.video-showcase-large > div {
+  border-radius: 16px !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.video-showcase-large > div:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+.dark .video-showcase-large > div {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.dark .video-showcase-large > div:hover {
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+}
+
 @media (max-width: 768px) {
   .motivation-cards {
     grid-template-columns: 1fr;
@@ -90,5 +116,11 @@
   
   .motivation-card {
     padding: 1.25rem;
+  }
+  
+  .video-showcase-large {
+    margin: 2rem -2rem 2rem 0;
+    max-width: calc(100% + 2rem);
+    width: calc(100% + 2rem);
   }
 }
