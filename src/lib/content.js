@@ -9,6 +9,12 @@ const mod = await loader()
 const fm = mod.frontmatter || {}
 const folderSlug = path.split('/').slice(-2, -1)[0]
 const finalSlug = fm.slug || folderSlug
+
+// 只显示状态为 "shipped" 的项目
+if (fm.status !== 'shipped') {
+  continue
+}
+
   const cover = typeof fm.cover === 'string'
 ? (fm.cover.startsWith('./')
   ? `/projects/${finalSlug}/${fm.cover.replace('./', '')}`
