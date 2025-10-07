@@ -2,7 +2,7 @@
 const { title, subtitle, slug } = Astro.props
 ---
 
-<div class={`project-hero ${slug === 'referral-research' ? 'referral-hero' : slug === 'annual-satisfaction' ? 'satisfaction-hero' : slug === 'growth-tactics' ? 'growth-hero' : slug === 'RAI-product' ? 'rai-hero' : ''}`}>
+<div class={`project-hero ${slug === 'referral-research' ? 'referral-hero' : slug === 'annual-satisfaction' ? 'satisfaction-hero' : slug === 'growth-tactics' ? 'growth-hero' : slug === 'RAI-product' ? 'rai-hero' : slug === 'healthcare-staff-solution' ? 'rai-hero' : ''}`}>
   <div class="hero-content">
     <!-- Main Title -->
     <h1 class="hero-title">
@@ -88,14 +88,34 @@ const { title, subtitle, slug } = Astro.props
       </div>
     )}
     
+    <!-- Stats for healthcare staff solution project -->
+    {slug === 'healthcare-staff-solution' && (
+      <div class="hero-stats-inline">
+        <div class="stat-item">
+          <span class="stat-number">15</span>
+          <span class="stat-label">Months Development & Growth</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number text-stat">Web & iOS</span>
+          <span class="stat-label">Platform Solution</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number text-stat">Healthcare</span>
+          <span class="stat-label">Focus Area</span>
+        </div>
+      </div>
+    )}
+    
     <!-- Project Meta Info -->
     {slug === 'referral-research' && (
       <div class="hero-meta">
-        <div class="meta-item">
-          <strong>Role:</strong> UX Researcher
-        </div>
-        <div class="meta-item">
-          <strong>Timeline:</strong> 2 months (Jan-Feb 2022)
+        <div class="meta-row">
+          <div class="meta-item">
+            <strong>Role:</strong> UX Researcher
+          </div>
+          <div class="meta-item">
+            <strong>Timeline:</strong> 2 months (Jan-Feb 2022)
+          </div>
         </div>
       </div>
     )}
@@ -103,11 +123,13 @@ const { title, subtitle, slug } = Astro.props
     <!-- Project Meta Info for annual satisfaction -->
     {slug === 'annual-satisfaction' && (
       <div class="hero-meta">
-        <div class="meta-item">
-          <strong>Role:</strong> UX Researcher
-        </div>
-        <div class="meta-item">
-          <strong>Timeline:</strong> 2 months (Feb-Mar 2022)
+        <div class="meta-row">
+          <div class="meta-item">
+            <strong>Role:</strong> UX Researcher
+          </div>
+          <div class="meta-item">
+            <strong>Timeline:</strong> 2 months (Feb-Mar 2022)
+          </div>
         </div>
       </div>
     )}
@@ -115,11 +137,13 @@ const { title, subtitle, slug } = Astro.props
     <!-- Project Meta Info for growth tactics -->
     {slug === 'growth-tactics' && (
       <div class="hero-meta">
-        <div class="meta-item">
-          <strong>Role:</strong> UX Researcher
-        </div>
-        <div class="meta-item">
-          <strong>Timeline:</strong> 2 months (Jun-Jul 2023)
+        <div class="meta-row">
+          <div class="meta-item">
+            <strong>Role:</strong> UX Researcher
+          </div>
+          <div class="meta-item">
+            <strong>Timeline:</strong> 2 months (Jun-Jul 2023)
+          </div>
         </div>
       </div>
     )}
@@ -141,6 +165,20 @@ const { title, subtitle, slug } = Astro.props
           </div>
           <div class="meta-item">
             <strong>Teammates:</strong> Freya Yu, Krant Li, Moni Huang
+          </div>
+        </div>
+      </div>
+    )}
+    
+    <!-- Project Meta Info for healthcare staff solution -->
+    {slug === 'healthcare-staff-solution' && (
+      <div class="hero-meta">
+        <div class="meta-row">
+          <div class="meta-item">
+            <strong>Role:</strong> Product Designer, Product Manager
+          </div>
+          <div class="meta-item">
+            <strong>Timeline:</strong> 15 months (May 2024–Sept 2025)
           </div>
         </div>
       </div>
@@ -324,7 +362,7 @@ const { title, subtitle, slug } = Astro.props
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    margin-top: 1.5rem;
+    margin-top: 3rem;
     justify-content: center;
     font-size: 0.9rem;
     opacity: 0.9;
