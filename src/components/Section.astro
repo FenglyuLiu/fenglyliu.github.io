@@ -44,6 +44,14 @@ const sectionId = generateId(heading);
     transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
   
+  /* 移动端优化 - 减少section间距 */
+  @media (max-width: 768px) {
+    .section-container {
+      min-height: auto;
+      padding: 1.5rem 0;
+    }
+  }
+  
   .section-container.visible {
     opacity: 1;
     transform: translateY(0);

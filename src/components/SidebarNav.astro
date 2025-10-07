@@ -49,6 +49,13 @@ const { sections = [], theme = '' } = Astro.props
     width: 240px;
   }
   
+  /* 移动端隐藏侧边导航 */
+  @media (max-width: 768px) {
+    .floating-nav {
+      display: none;
+    }
+  }
+  
   .dark .floating-nav {
     background: rgba(17, 24, 39, 0.95);
   }

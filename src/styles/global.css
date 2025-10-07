@@ -535,6 +535,12 @@ html.dark .satisfaction-theme .section-title,
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Dark mode PCA table */
+.dark .pca-table {
+  background: #1f2937;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
 .pca-table th {
   background: #e5181f;
   color: white;
@@ -552,8 +558,19 @@ html.dark .satisfaction-theme .section-title,
   font-size: 0.9rem;
 }
 
+/* Dark mode PCA table cells */
+.dark .pca-table td {
+  border-bottom: 1px solid #374151;
+  color: #e5e7eb;
+}
+
 .pca-table tr:hover {
   background: #fef2f2;
+}
+
+/* Dark mode PCA table hover */
+.dark .pca-table tr:hover {
+  background: #374151;
 }
 
 .rank-badge {
@@ -567,6 +584,12 @@ html.dark .satisfaction-theme .section-title,
   font-size: 0.8rem;
   font-weight: 700;
   color: #374151;
+}
+
+/* Dark mode rank badge */
+.dark .rank-badge {
+  background: #4b5563;
+  color: #e5e7eb;
 }
 
 .rank-badge.top-3 {
