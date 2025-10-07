@@ -62,6 +62,16 @@ const sections = sidebarSections.length > 0 ? sidebarSections : [
     max-width: 800px;
     margin: 0 auto;
     padding: 0 2rem;
+    overflow-x: hidden;
+  }
+  
+  /* 移动端确保内容不超出屏幕 */
+  @media (max-width: 768px) {
+    .main-content {
+      padding: 0 1rem;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
   }
   
   .floating-nav-container {

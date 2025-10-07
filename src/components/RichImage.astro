@@ -8,16 +8,26 @@ const widthClass = width === 'half' ? 'w-1/2 mx-auto' : 'w-full'
 </figure>
 
 <style>
-  /* 移动端图片优化 */
+  /* 移动端图片优化 - 强制确保不超出屏幕 */
   @media (max-width: 768px) {
     figure {
       margin: 1rem 0;
+      width: 100%;
+      max-width: 100%;
+      overflow: hidden;
     }
     
     figure img {
-      max-width: 100%;
-      height: auto;
-      width: 100%;
+      max-width: 100% !important;
+      width: 100% !important;
+      height: auto !important;
+      object-fit: contain;
     }
+  }
+  
+  /* 全局图片响应式 */
+  figure img {
+    max-width: 100%;
+    height: auto;
   }
 </style>
