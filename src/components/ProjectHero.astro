@@ -2,7 +2,7 @@
 const { title, subtitle, slug } = Astro.props
 ---
 
-<div class={`project-hero ${slug === 'referral-research' ? 'referral-hero' : slug === 'annual-satisfaction' ? 'satisfaction-hero' : slug === 'growth-tactics' ? 'growth-hero' : slug === 'RAI-product' ? 'rai-hero' : slug === 'healthcare-staff-solution' ? 'rai-hero' : ''}`}>
+<div class={`project-hero ${slug === 'referral-research' ? 'referral-hero' : slug === 'annual-satisfaction' ? 'satisfaction-hero' : slug === 'growth-tactics' ? 'growth-hero' : slug === 'RAI-product' ? 'rai-hero' : slug === 'healthcare-staff-solution' ? 'healthcare-hero' : ''}`}>
   <div class="hero-content">
     <!-- Main Title -->
     <h1 class="hero-title">
@@ -92,8 +92,8 @@ const { title, subtitle, slug } = Astro.props
     {slug === 'healthcare-staff-solution' && (
       <div class="hero-stats-inline">
         <div class="stat-item">
-          <span class="stat-number">15</span>
-          <span class="stat-label">Months Development & Growth</span>
+          <span class="stat-number text-stat">15 Months</span>
+          <span class="stat-label">Development & Growth</span>
         </div>
         <div class="stat-item">
           <span class="stat-number text-stat">Web & iOS</span>
@@ -175,7 +175,7 @@ const { title, subtitle, slug } = Astro.props
       <div class="hero-meta">
         <div class="meta-row">
           <div class="meta-item">
-            <strong>Role:</strong> Product Designer, Product Manager
+            <strong>Role:</strong> Product Designer
           </div>
           <div class="meta-item">
             <strong>Timeline:</strong> 15 months (May 2024–Sept 2025)
@@ -224,6 +224,14 @@ const { title, subtitle, slug } = Astro.props
     border-radius: 0 0 24px 24px;
   }
   
+  .healthcare-hero {
+    background: linear-gradient(135deg, #F8FCFF 0%, #ECF5FF 50%, #D6E8FF 100%);
+    color: #022E64;
+    padding: 4rem 2rem;
+    margin: 0 -2rem 2rem -2rem;
+    border-radius: 0 0 24px 24px;
+  }
+  
   .hero-content {
     max-width: none;
   }
@@ -242,18 +250,21 @@ const { title, subtitle, slug } = Astro.props
     color: white;
     font-size: 3.5rem;
     margin-bottom: 1rem;
+    letter-spacing: -0.01em;
   }
   
   .satisfaction-hero .hero-title {
     color: white;
     font-size: 3.5rem;
     margin-bottom: 1rem;
+    letter-spacing: -0.01em;
   }
   
   .growth-hero .hero-title {
     color: white;
     font-size: 3.5rem;
     margin-bottom: 1rem;
+    letter-spacing: -0.01em;
   }
   
   .rai-hero .hero-title {
@@ -263,6 +274,15 @@ const { title, subtitle, slug } = Astro.props
     background-clip: text;
     font-size: 3.5rem;
     margin-bottom: 1rem;
+    letter-spacing: -0.01em;
+  }
+  
+  .healthcare-hero .hero-title {
+    color: #1176E5;
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
   }
   
   .dark .hero-title {
@@ -309,6 +329,13 @@ const { title, subtitle, slug } = Astro.props
     margin-bottom: 3rem;
   }
   
+  .healthcare-hero .hero-subtitle {
+    color: #022E64;
+    font-size: 1.5rem;
+    margin-bottom: 3rem;
+    opacity: 0.8;
+  }
+  
   .dark .hero-subtitle {
     color: #9ca3af;
   }
@@ -346,6 +373,18 @@ const { title, subtitle, slug } = Astro.props
     font-size: 2.2rem;
   }
   
+  .healthcare-hero .stat-item .stat-number {
+    color: #1176E5;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .healthcare-hero .stat-item .stat-number.text-stat {
+    font-size: 2.2rem;
+  }
+  
   .stat-item .stat-label {
     font-size: 0.9rem;
     opacity: 0.9;
@@ -356,6 +395,11 @@ const { title, subtitle, slug } = Astro.props
   
   .rai-hero .stat-item .stat-label {
     color: #6b7280;
+  }
+  
+  .healthcare-hero .stat-item .stat-label {
+    color: #022E64;
+    opacity: 0.7;
   }
   
   .hero-meta {
@@ -371,6 +415,11 @@ const { title, subtitle, slug } = Astro.props
   
   .rai-hero .hero-meta {
     color: #4a5568;
+  }
+  
+  .healthcare-hero .hero-meta {
+    color: #022E64;
+    opacity: 0.8;
   }
   
   .meta-row {
@@ -409,24 +458,38 @@ const { title, subtitle, slug } = Astro.props
       margin: 0 -1rem 2rem -1rem;
     }
     
+    .healthcare-hero {
+      padding: 3rem 1rem;
+      margin: 0 -1rem 2rem -1rem;
+    }
+    
     .hero-title {
       font-size: 2.25rem;
     }
     
     .referral-hero .hero-title {
       font-size: 2.5rem;
+      letter-spacing: -0.01em;
     }
     
     .satisfaction-hero .hero-title {
       font-size: 2.5rem;
+      letter-spacing: -0.01em;
     }
     
     .growth-hero .hero-title {
       font-size: 2.5rem;
+      letter-spacing: -0.01em;
     }
     
     .rai-hero .hero-title {
       font-size: 2.5rem;
+      letter-spacing: -0.01em;
+    }
+    
+    .healthcare-hero .hero-title {
+      font-size: 2.5rem;
+      letter-spacing: -0.01em;
     }
     
     .hero-subtitle {
@@ -449,6 +512,10 @@ const { title, subtitle, slug } = Astro.props
       font-size: 1.25rem;
     }
     
+    .healthcare-hero .hero-subtitle {
+      font-size: 1.25rem;
+    }
+    
     .hero-stats-inline {
       gap: 2rem;
     }
@@ -462,6 +529,14 @@ const { title, subtitle, slug } = Astro.props
     }
     
     .rai-hero .stat-item .stat-number.text-stat {
+      font-size: 1.6rem;
+    }
+    
+    .healthcare-hero .stat-item .stat-number {
+      height: 2.5rem;
+    }
+    
+    .healthcare-hero .stat-item .stat-number.text-stat {
       font-size: 1.6rem;
     }
   }
