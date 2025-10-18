@@ -1,6 +1,7 @@
 ---
 // Google Analytics 4 追踪组件
 // 请将 YOUR_GA4_MEASUREMENT_ID 替换为您的实际 GA4 测量 ID
+
 const GA4_MEASUREMENT_ID = 'G-7TRYGRK614'; // Google Analytics 4 测量 ID
 ---
 
@@ -358,6 +359,89 @@ const GA4_MEASUREMENT_ID = 'G-7TRYGRK614'; // Google Analytics 4 测量 ID
     });
   }
 
+
+  // 自定义事件追踪函数
+  function trackCustomEvent(eventName, eventParameters = {}) {
+    // 检查是否应该过滤此事件
+    if (shouldFilterVisit()) {
+      console.log('跳过事件追踪 - 管理员或测试访问:', eventName);
+      return;
+    }
+
+    // 发送到 Google Analytics
+    if (typeof gtag !== 'undefined') {
+      gtag('event', eventName, {
+        event_category: eventParameters.category || 'engagement',
+        event_label: eventParameters.label || '',
+        value: eventParameters.value || 0,
+        ...eventParameters
+      });
+    }
+
+    // 保存到本地存储
+    sendTrackingData('custom_event', {
+      eventName: eventName,
+      parameters: eventParameters,
+      timestamp: Date.now()
+    });
+
+    console.log('已追踪自定义事件:', eventName, eventParameters);
+  }
+
+  // 按钮点击追踪
+  function trackButtonClick(buttonText, buttonLocation) {
+    trackCustomEvent('button_click', {
+      category: 'engagement',
+      label: buttonText,
+      button_location: buttonLocation
+    });
+  }
+
+  // 链接点击追踪
+  function trackLinkClick(linkText, linkUrl, linkLocation) {
+    trackCustomEvent('link_click', {
+      category: 'engagement',
+      label: linkText,
+      link_url: linkUrl,
+      link_location: linkLocation
+    });
+  }
+
+  // 表单提交追踪
+  function trackFormSubmit(formName, formLocation) {
+    trackCustomEvent('form_submit', {
+      category: 'conversion',
+      label: formName,
+      form_location: formLocation
+    });
+  }
+
+  // 文件下载追踪
+  function trackFileDownload(fileName, fileType, downloadLocation) {
+    trackCustomEvent('file_download', {
+      category: 'engagement',
+      label: fileName,
+      file_type: fileType,
+      download_location: downloadLocation
+    });
+  }
+
+  // 视频播放追踪
+  function trackVideoPlay(videoTitle, videoLocation) {
+    trackCustomEvent('video_play', {
+      category: 'engagement',
+      label: videoTitle,
+      video_location: videoLocation
+    });
+  }
+
+  // 将追踪函数暴露到全局，方便其他组件使用
+  window.trackCustomEvent = trackCustomEvent;
+  window.trackButtonClick = trackButtonClick;
+  window.trackLinkClick = trackLinkClick;
+  window.trackFormSubmit = trackFormSubmit;
+  window.trackFileDownload = trackFileDownload;
+  window.trackVideoPlay = trackVideoPlay;
 
   // 初始化追踪 - 延迟初始化以避免干扰其他组件
   document.addEventListener('DOMContentLoaded', function() {
