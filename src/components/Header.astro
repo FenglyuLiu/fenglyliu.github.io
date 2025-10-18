@@ -12,7 +12,7 @@ const links = [
 <a href="/" class="font-semibold tracking-tight">Felicity Liu</a>
 <!-- 桌面端导航 -->
 <ul class="hidden md:flex gap-6 text-sm">
-{links.map(l => <li><a class="hover:underline" href={l.href}>{l.label}</a></li>)}
+{links.map(l => <li><a class="hover:underline" href={l.href} onclick={`trackLinkClick('${l.label}', '${l.href}', 'desktop-nav')`}>{l.label}</a></li>)}
 </ul>
 <!-- 移动端汉堡菜单按钮 -->
 <button id="mobile-menu-button" class="md:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800">
@@ -24,7 +24,7 @@ const links = [
 <!-- 移动端菜单 -->
 <div id="mobile-menu" class="md:hidden hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur border-b border-black/10 dark:border-white/10">
 <ul class="px-4 py-2 space-y-2">
-{links.map(l => <li><a class="block py-2 text-sm hover:underline" href={l.href}>{l.label}</a></li>)}
+{links.map(l => <li><a class="block py-2 text-sm hover:underline" href={l.href} onclick={`trackLinkClick('${l.label}', '${l.href}', 'mobile-nav')`}>{l.label}</a></li>)}
 </ul>
 </div>
 </header>

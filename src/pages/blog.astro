@@ -72,4 +72,23 @@ import BaseLayout from '../layouts/BaseLayout.astro'
     </div>
   </div>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 追踪博客页面访问
+  trackCustomEvent('page_view', {
+    category: 'engagement',
+    label: 'Blog Page',
+    page_title: 'Blog - Portfolio'
+  });
+
+  // 追踪博客文章链接点击
+  document.querySelectorAll('a[href*="/blog/"]').forEach(link => {
+    link.addEventListener('click', function() {
+      const articleTitle = this.textContent.trim();
+      trackLinkClick(articleTitle, this.href, 'blog-page');
+    });
+  });
+});
+</script>
 </BaseLayout>

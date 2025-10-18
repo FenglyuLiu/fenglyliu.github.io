@@ -26,4 +26,27 @@ const projects = await getAllProjects()
 </div>
 ))}
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 追踪项目页面访问
+  trackCustomEvent('page_view', {
+    category: 'engagement',
+    label: 'Projects Page',
+    page_title: 'Projects - Portfolio'
+  });
+
+  // 追踪项目卡片点击
+  document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('click', function() {
+      const projectTitle = this.querySelector('h3')?.textContent || 'Unknown Project';
+      trackCustomEvent('project_view', {
+        category: 'engagement',
+        label: projectTitle,
+        project_location: 'projects-page'
+      });
+    });
+  });
+});
+</script>
 </BaseLayout>

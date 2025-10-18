@@ -36,7 +36,7 @@ import BaseLayout from '../layouts/BaseLayout.astro'
   </a>
 
   <!-- LinkedIn 卡片 -->
-  <a href="https://linkedin.com/in/felicity-fenglyu-liu" target="_blank" rel="noopener" class="group relative rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-lg hover:shadow-gray-200/50 transform-gpu hover:scale-[1.02] transition-all duration-200 will-change-transform bg-gray-50 dark:bg-gray-800/50 backdrop-blur-sm">
+  <a href="https://linkedin.com/in/felicity-fenglyu-liu" target="_blank" rel="noopener" onclick="trackLinkClick('LinkedIn Profile', 'https://linkedin.com/in/felicity-fenglyu-liu', 'contact-page')" class="group relative rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-lg hover:shadow-gray-200/50 transform-gpu hover:scale-[1.02] transition-all duration-200 will-change-transform bg-gray-50 dark:bg-gray-800/50 backdrop-blur-sm">
     <!-- RIL项目渐变色悬停效果 -->
     <div class="absolute inset-0 bg-[linear-gradient(90deg,_#ECF8FF_0%,_#D8E4FF_100%)] dark:bg-[linear-gradient(90deg,_#1E3A5F_0%,_#2D4A6B_100%)] opacity-0 group-hover:opacity-20 transition-opacity duration-200 pointer-events-none z-0"></div>
     <div class="px-6 pt-0 pb-9 relative z-10">
@@ -57,7 +57,7 @@ import BaseLayout from '../layouts/BaseLayout.astro'
   </a>
 
   <!-- Resume 卡片 -->
-  <a href="/Resume-Product Designer-FelicityLiu.pdf" target="_blank" rel="noopener" class="group relative rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-lg hover:shadow-gray-200/50 transform-gpu hover:scale-[1.02] transition-all duration-200 will-change-transform bg-gray-50 dark:bg-gray-800/50 backdrop-blur-sm">
+  <a href="/Resume-Product Designer-FelicityLiu.pdf" target="_blank" rel="noopener" onclick="trackFileDownload('Resume-Product Designer-FelicityLiu.pdf', 'pdf', 'contact-page')" class="group relative rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-lg hover:shadow-gray-200/50 transform-gpu hover:scale-[1.02] transition-all duration-200 will-change-transform bg-gray-50 dark:bg-gray-800/50 backdrop-blur-sm">
     <!-- RIL项目渐变色悬停效果 -->
     <div class="absolute inset-0 bg-[linear-gradient(90deg,_#ECF8FF_0%,_#D8E4FF_100%)] dark:bg-[linear-gradient(90deg,_#1E3A5F_0%,_#2D4A6B_100%)] opacity-0 group-hover:opacity-20 transition-opacity duration-200 pointer-events-none z-0"></div>
     <div class="px-6 pt-0 pb-9 relative z-10">
@@ -123,9 +123,23 @@ import BaseLayout from '../layouts/BaseLayout.astro'
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+  // 追踪页面访问
+  trackCustomEvent('page_view', {
+    category: 'engagement',
+    label: 'Contact Page',
+    page_title: 'Contact - Felicity Liu'
+  });
+
   const copyBtn = document.getElementById('copy-email-btn');
   
   copyBtn.addEventListener('click', function(event) {
+    // 追踪邮件复制事件
+    trackCustomEvent('email_copy', {
+      category: 'engagement',
+      label: 'Email Copied',
+      email_address: 'liufenglyu@gmail.com'
+    });
+
     // 阻止事件冒泡和默认行为
     event.preventDefault();
     event.stopPropagation();

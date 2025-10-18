@@ -55,4 +55,27 @@ const projects = await getAllProjects()
 </div>
 ))}
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 追踪首页访问
+  trackCustomEvent('page_view', {
+    category: 'engagement',
+    label: 'Home Page',
+    page_title: 'Felicity Liu - Portfolio'
+  });
+
+  // 追踪项目卡片点击
+  document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('click', function() {
+      const projectTitle = this.querySelector('h3')?.textContent || 'Unknown Project';
+      trackCustomEvent('project_view', {
+        category: 'engagement',
+        label: projectTitle,
+        project_location: 'home-page'
+      });
+    });
+  });
+});
+</script>
 </BaseLayout>

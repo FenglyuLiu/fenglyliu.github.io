@@ -173,4 +173,35 @@ try {
     </div>
   </section>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 追踪摄影页面访问
+  trackCustomEvent('page_view', {
+    category: 'engagement',
+    label: 'Photography Page',
+    page_title: 'Photography - Portfolio'
+  });
+
+  // 追踪摄影分类链接点击
+  document.querySelectorAll('a[href*="/photography/"]').forEach(link => {
+    link.addEventListener('click', function() {
+      const category = this.href.split('/').pop();
+      trackLinkClick(`Photography - ${category}`, this.href, 'photography-page');
+    });
+  });
+
+  // 追踪图片点击
+  document.querySelectorAll('img').forEach(img => {
+    img.addEventListener('click', function() {
+      const category = this.src.split('/').slice(-2, -1)[0];
+      trackCustomEvent('image_view', {
+        category: 'engagement',
+        label: `Photography - ${category}`,
+        image_location: 'photography-page'
+      });
+    });
+  });
+});
+</script>
 </BaseLayout>
