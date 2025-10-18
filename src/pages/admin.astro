@@ -1,15 +1,49 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import VisitorAnalytics from '../components/VisitorAnalytics.astro';
+
+// 简单的访问控制 - 检查是否为管理员
+const isAdmin = () => {
+  if (typeof window === 'undefined') return false;
+  
+  // 检查 localStorage 中的管理员标记
+  const adminFlag = localStorage.getItem('is_admin');
+  if (adminFlag === 'true') return true;
+  
+  // 检查 URL 参数中的管理员密钥
+  const urlParams = new URLSearchParams(window.location.search);
+  const adminKey = urlParams.get('admin');
+  if (adminKey === 'felicity2025') {
+    localStorage.setItem('is_admin', 'true');
+    return true;
+  }
+  
+  return false;
+};
 ---
 
 <BaseLayout title="Admin Dashboard & Analytics">
   <div class="container mx-auto px-4 py-8">
     <div class="max-w-6xl mx-auto">
-      <!-- Analytics Dashboard -->
-      <div class="mb-8">
-        <VisitorAnalytics />
+      <!-- Access Control -->
+      <div id="access-denied" class="hidden bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6 mb-8">
+        <div class="flex items-center">
+          <svg class="w-6 h-6 text-red-600 dark:text-red-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 19.5c-.77.833.192 2.5 1.732 2.5z"></path>
+          </svg>
+          <div>
+            <h3 class="text-lg font-semibold text-red-800 dark:text-red-200">Access Denied</h3>
+            <p class="text-red-600 dark:text-red-300 mt-1">You don't have permission to access this page.</p>
+          </div>
+        </div>
       </div>
+
+      <!-- Admin Content -->
+      <div id="admin-content">
+        <!-- Analytics Dashboard -->
+        <div class="mb-8">
+          <VisitorAnalytics />
+        </div>
 
       <!-- Filter Settings (Dropdown) -->
       <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg mb-8">
@@ -183,12 +217,48 @@ import VisitorAnalytics from '../components/VisitorAnalytics.astro';
       </div>
 
 
+      </div>
     </div>
   </div>
 
   <script>
     // Admin Dashboard Script
     document.addEventListener('DOMContentLoaded', function() {
+      // Access Control Check
+      function checkAdminAccess() {
+        const adminFlag = localStorage.getItem('is_admin');
+        const urlParams = new URLSearchParams(window.location.search);
+        const adminKey = urlParams.get('admin');
+        
+        // Check if admin key is provided
+        if (adminKey === 'felicity2025') {
+          localStorage.setItem('is_admin', 'true');
+          // Remove the admin key from URL for security
+          const newUrl = new URL(window.location);
+          newUrl.searchParams.delete('admin');
+          window.history.replaceState({}, '', newUrl);
+          return true;
+        }
+        
+        // Check if already marked as admin
+        if (adminFlag === 'true') {
+          return true;
+        }
+        
+        return false;
+      }
+      
+      // Apply access control
+      const hasAccess = checkAdminAccess();
+      const accessDeniedDiv = document.getElementById('access-denied');
+      const adminContentDiv = document.getElementById('admin-content');
+      
+      if (!hasAccess) {
+        if (accessDeniedDiv) accessDeniedDiv.classList.remove('hidden');
+        if (adminContentDiv) adminContentDiv.style.display = 'none';
+        return; // Stop execution if no access
+      }
+      
       initializePage();
       updateFilterStatus();
       detectEnvironment();
