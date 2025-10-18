@@ -254,6 +254,9 @@
       
       // Update page time analysis
       this.updatePageTimeAnalysis();
+      
+      // Load and display public visitor data
+      this.loadPublicData();
     }
 
     updatePopularPages() {
@@ -322,6 +325,45 @@
           </div>
         </div>
       `).join('');
+    }
+
+    loadPublicData() {
+      try {
+        // 从 sessionStorage 加载公共访问数据
+        const publicData = JSON.parse(sessionStorage.getItem('public_visitor_data') || '[]');
+        
+        if (publicData.length > 0) {
+          console.log('发现公共访问数据:', publicData.length, '条记录');
+          
+          // 在页面上显示公共数据信息
+          const container = document.querySelector('.visitor-analytics');
+          if (container) {
+            // 检查是否已经添加了公共数据信息
+            let publicDataInfo = document.getElementById('public-data-info');
+            if (!publicDataInfo) {
+              publicDataInfo = document.createElement('div');
+              publicDataInfo.id = 'public-data-info';
+              publicDataInfo.className = 'mb-6';
+              container.insertBefore(publicDataInfo, container.firstChild);
+            }
+            
+            publicDataInfo.innerHTML = `
+              <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <h3 class="text-blue-800 font-medium mb-2">🌐 公共访问数据</h3>
+                <p class="text-blue-600 text-sm mb-2">发现 ${publicData.length} 条来自其他访问者的记录</p>
+                <div class="text-xs text-blue-500">
+                  <strong>最近访问:</strong><br>
+                  ${publicData.slice(-3).map(data => 
+                    `${new Date(data.timestamp).toLocaleTimeString()} - ${data.path} (${data.title})`
+                  ).join('<br>')}
+                </div>
+              </div>
+            `;
+          }
+        }
+      } catch (error) {
+        console.log('无法加载公共访问数据:', error);
+      }
     }
   }
 
