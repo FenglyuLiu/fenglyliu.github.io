@@ -192,12 +192,26 @@ const GA4_MEASUREMENT_ID = 'G-7TRYGRK614'; // Google Analytics 4 测量 ID
     if (currentPage && !currentPage.isFiltered) {
       currentPage.timeOnPage += TRACKING_CONFIG.trackingInterval;
       
-      // 每30秒发送一次更新
+      // 每30秒发送一次更新到 Google Analytics
       if (currentPage.timeOnPage % 30 === 0) {
+        // 发送到 Google Analytics
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'timing_complete', {
+            name: 'page_time',
+            value: currentPage.timeOnPage,
+            event_category: 'engagement',
+            event_label: currentPage.path
+          });
+        }
+
+        // 发送到本地存储
         sendTrackingData('time_update', {
           page: currentPage.path,
-          timeOnPage: currentPage.timeOnPage
+          timeOnPage: currentPage.timeOnPage,
+          timestamp: Date.now()
         });
+
+        console.log(`页面停留时间更新: ${currentPage.path} - ${currentPage.timeOnPage}秒`);
       }
     }
   }
@@ -434,6 +448,56 @@ const GA4_MEASUREMENT_ID = 'G-7TRYGRK614'; // Google Analytics 4 测量 ID
       video_location: videoLocation
     });
   }
+
+  // 页面停留时间分析函数
+  function getPageTimeAnalysis() {
+    try {
+      const trackingData = JSON.parse(localStorage.getItem('tracking_data') || '[]');
+      const pageTimes = {};
+      
+      // 分析页面停留时间数据
+      trackingData.forEach(event => {
+        if (event.eventType === 'time_update' && event.data) {
+          const page = event.data.page;
+          const timeOnPage = event.data.timeOnPage;
+          
+          if (!pageTimes[page]) {
+            pageTimes[page] = {
+              totalTime: 0,
+              visits: 0,
+              maxTime: 0,
+              minTime: Infinity,
+              lastVisit: 0
+            };
+          }
+          
+          pageTimes[page].totalTime += timeOnPage;
+          pageTimes[page].visits += 1;
+          pageTimes[page].maxTime = Math.max(pageTimes[page].maxTime, timeOnPage);
+          pageTimes[page].minTime = Math.min(pageTimes[page].minTime, timeOnPage);
+          pageTimes[page].lastVisit = Math.max(pageTimes[page].lastVisit, event.timestamp);
+        }
+      });
+      
+      // 计算平均时间并排序
+      return Object.entries(pageTimes).map(([page, data]) => ({
+        page: page,
+        avgTime: Math.round(data.totalTime / data.visits),
+        totalTime: data.totalTime,
+        visits: data.visits,
+        maxTime: data.maxTime,
+        minTime: data.minTime === Infinity ? 0 : data.minTime,
+        lastVisit: new Date(data.lastVisit).toLocaleString()
+      })).sort((a, b) => b.avgTime - a.avgTime);
+      
+    } catch (error) {
+      console.log('停留时间分析失败:', error);
+      return [];
+    }
+  }
+
+  // 将分析函数暴露到全局
+  window.getPageTimeAnalysis = getPageTimeAnalysis;
 
   // 将追踪函数暴露到全局，方便其他组件使用
   window.trackCustomEvent = trackCustomEvent;
