@@ -1,0 +1,358 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import VisitorAnalytics from '../components/VisitorAnalytics.astro';
+---
+
+<BaseLayout title="Admin Dashboard & Analytics">
+  <div class="container mx-auto px-4 py-8">
+    <div class="max-w-6xl mx-auto">
+      <!-- Analytics Dashboard -->
+      <div class="mb-8">
+        <VisitorAnalytics />
+      </div>
+
+      <!-- Filter Settings (Dropdown) -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg mb-8">
+        <div class="p-6">
+          <button 
+            id="filter-toggle-btn"
+            class="flex items-center justify-between w-full text-left hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg p-2 -m-2"
+          >
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Filter Settings</h3>
+            <svg id="filter-arrow" class="w-5 h-5 text-gray-500 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+        </div>
+        
+        <div id="filter-settings-content" class="px-6 pb-6 hidden">
+          <!-- Data Management -->
+          <div class="mb-6">
+            <h4 class="text-md font-medium text-gray-900 dark:text-gray-100 mb-3">Data Management</h4>
+            <div class="flex flex-wrap gap-4">
+              <button 
+                id="clear-data-btn"
+                class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors"
+              >
+                Clear All Data
+              </button>
+              <button 
+                id="refresh-analytics-btn"
+                class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors"
+              >
+                Refresh Analytics
+              </button>
+            </div>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mt-3">
+              Clear all tracking data to start fresh with filtered data collection
+            </p>
+          </div>
+          <!-- Current Filter Status -->
+          <div class="mb-6">
+            <h4 class="text-md font-medium text-gray-900 dark:text-gray-100 mb-3">Current Filter Status</h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                <span class="text-gray-700 dark:text-gray-300">Admin Visit Filter:</span>
+                <span id="admin-filter-status" class="px-3 py-1 rounded-full text-sm font-medium bg-gray-200 text-gray-800 dark:bg-gray-600 dark:text-gray-200">
+                  Enabled
+                </span>
+              </div>
+              <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                <span class="text-gray-700 dark:text-gray-300">Test Page Filter:</span>
+                <span id="test-filter-status" class="px-3 py-1 rounded-full text-sm font-medium bg-gray-200 text-gray-800 dark:bg-gray-600 dark:text-gray-200">
+                  Enabled
+                </span>
+              </div>
+              <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                <span class="text-gray-700 dark:text-gray-300">Current Page:</span>
+                <span id="current-page" class="px-3 py-1 rounded-full text-sm font-medium bg-gray-200 text-gray-800 dark:bg-gray-600 dark:text-gray-200">
+                  -
+                </span>
+              </div>
+              <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                <span class="text-gray-700 dark:text-gray-300">Is Filtered:</span>
+                <span id="filter-status" class="px-3 py-1 rounded-full text-sm font-medium bg-gray-200 text-gray-800 dark:bg-gray-600 dark:text-gray-200">
+                  Yes
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Environment Detection -->
+          <div class="mb-6">
+            <h4 class="text-md font-medium text-gray-900 dark:text-gray-100 mb-3">Current Environment Detection</h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                <div class="text-sm text-gray-600 dark:text-gray-400">Current Domain</div>
+                <div id="current-hostname" class="font-mono text-sm text-gray-900 dark:text-gray-100">-</div>
+              </div>
+              <div class="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                <div class="text-sm text-gray-600 dark:text-gray-400">Environment Type</div>
+                <div id="environment-type" class="font-medium text-sm">-</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Admin Mark -->
+          <div class="mb-6">
+            <label class="flex items-center space-x-3">
+              <input 
+                type="checkbox" 
+                id="admin-toggle" 
+                class="w-4 h-4 text-gray-600 bg-gray-100 border-gray-300 rounded focus:ring-gray-500 dark:focus:ring-gray-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              >
+              <span class="text-gray-700 dark:text-gray-300">Mark as Admin (visits from this browser will be filtered)</span>
+            </label>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+              When enabled, all visits from this browser will not be tracked. Recommended for development/testing environments.
+            </p>
+          </div>
+
+          <!-- Environment Filter Settings -->
+          <div class="mb-6">
+            <h4 class="text-md font-medium text-gray-900 dark:text-gray-100 mb-3">Environment Filter Settings</h4>
+            <div class="space-y-3">
+              <label class="flex items-center space-x-3">
+                <input 
+                  type="checkbox" 
+                  id="filter-staging" 
+                  checked
+                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                >
+                <span class="text-gray-700 dark:text-gray-300">Filter staging environment visits</span>
+              </label>
+              <label class="flex items-center space-x-3">
+                <input 
+                  type="checkbox" 
+                  id="filter-preview" 
+                  checked
+                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                >
+                <span class="text-gray-700 dark:text-gray-300">Filter preview environment visits</span>
+              </label>
+              <label class="flex items-center space-x-3">
+                <input 
+                  type="checkbox" 
+                  id="filter-dev" 
+                  checked
+                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                >
+                <span class="text-gray-700 dark:text-gray-300">Filter development environment visits</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Test Pages List -->
+          <div class="mb-6">
+            <h4 class="text-md font-medium text-gray-900 dark:text-gray-100 mb-3">Test Pages (Auto-filtered)</h4>
+            <div class="space-y-2">
+              <div class="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-700 rounded">
+                <span class="text-gray-700 dark:text-gray-300">/test-tracking</span>
+                <span class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded dark:bg-red-900 dark:text-red-200">Filtered</span>
+              </div>
+              <div class="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-700 rounded">
+                <span class="text-gray-700 dark:text-gray-300">/admin</span>
+                <span class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded dark:bg-red-900 dark:text-red-200">Filtered</span>
+              </div>
+              <div class="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-700 rounded">
+                <span class="text-gray-700 dark:text-gray-300">/analytics</span>
+                <span class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded dark:bg-red-900 dark:text-red-200">Filtered</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filter Rules -->
+          <div class="mb-6">
+            <h4 class="text-md font-medium text-gray-900 dark:text-gray-100 mb-3">Automatic Filter Rules</h4>
+            <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+              <li>• <strong>Local Development</strong>: localhost, 127.0.0.1</li>
+              <li>• <strong>Staging Environment</strong>: domains containing 'staging'</li>
+              <li>• <strong>Preview Environment</strong>: vercel.app, netlify.app, domains containing 'preview'</li>
+              <li>• <strong>Development/Test Environment</strong>: domains containing 'dev' or 'test'</li>
+              <li>• <strong>User Agent</strong>: containing 'admin', 'test', 'dev' keywords</li>
+              <li>• <strong>Admin Mark</strong>: browsers marked as admin</li>
+              <li>• <strong>Test Pages</strong>: /test-tracking, /admin, /analytics</li>
+            </ul>
+            <div class="mt-3 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+              <p class="text-sm text-blue-800 dark:text-blue-200">
+                <strong>💡 Tip:</strong> The system automatically detects the current environment and applies appropriate filter rules. You can use the same browser in different environments, and the system will automatically determine whether to filter based on the domain.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+  <script>
+    // Admin Dashboard Script
+    document.addEventListener('DOMContentLoaded', function() {
+      initializePage();
+      updateFilterStatus();
+      detectEnvironment();
+      
+      // Add dropdown menu event listener
+      const filterToggleBtn = document.getElementById('filter-toggle-btn');
+      if (filterToggleBtn) {
+        filterToggleBtn.addEventListener('click', toggleFilterSettings);
+      }
+      
+      // Add data management button event listeners
+      const clearDataBtn = document.getElementById('clear-data-btn');
+      if (clearDataBtn) {
+        clearDataBtn.addEventListener('click', clearAllData);
+      }
+      
+      const refreshAnalyticsBtn = document.getElementById('refresh-analytics-btn');
+      if (refreshAnalyticsBtn) {
+        refreshAnalyticsBtn.addEventListener('click', refreshAnalytics);
+      }
+    });
+
+    // Toggle filter settings dropdown
+    function toggleFilterSettings() {
+      const content = document.getElementById('filter-settings-content');
+      const arrow = document.getElementById('filter-arrow');
+      
+      if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        arrow.style.transform = 'rotate(180deg)';
+      } else {
+        content.classList.add('hidden');
+        arrow.style.transform = 'rotate(0deg)';
+      }
+    }
+
+    function initializePage() {
+      // Set current page path
+      const currentPath = window.location.pathname;
+      document.getElementById('current-page').textContent = currentPath;
+      
+      // Check if filtered
+      const isFiltered = shouldFilterVisit();
+      const filterStatus = document.getElementById('filter-status');
+      if (isFiltered) {
+        filterStatus.textContent = 'Yes';
+        filterStatus.className = 'px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
+      } else {
+        filterStatus.textContent = 'No';
+        filterStatus.className = 'px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
+      }
+      
+    }
+
+    function detectEnvironment() {
+      const hostname = window.location.hostname;
+      const currentHostnameEl = document.getElementById('current-hostname');
+      const environmentTypeEl = document.getElementById('environment-type');
+      
+      currentHostnameEl.textContent = hostname;
+      
+      let environmentType = 'Production';
+      let environmentClass = 'text-green-600 dark:text-green-400';
+      
+      if (hostname === 'localhost' || hostname === '127.0.0.1') {
+        environmentType = 'Local Development';
+        environmentClass = 'text-yellow-600 dark:text-yellow-400';
+      } else if (hostname.includes('staging')) {
+        environmentType = 'Staging Environment';
+        environmentClass = 'text-orange-600 dark:text-orange-400';
+      } else if (hostname.includes('preview') || hostname.includes('vercel.app') || hostname.includes('netlify.app')) {
+        environmentType = 'Preview Environment';
+        environmentClass = 'text-purple-600 dark:text-purple-400';
+      } else if (hostname.includes('dev') || hostname.includes('test')) {
+        environmentType = 'Development/Test Environment';
+        environmentClass = 'text-red-600 dark:text-red-400';
+      }
+      
+      environmentTypeEl.textContent = environmentType;
+      environmentTypeEl.className = `font-medium text-sm ${environmentClass}`;
+    }
+
+    function updateFilterStatus() {
+      // Update admin filter status
+      const isAdmin = localStorage.getItem('is_admin') === 'true';
+      const adminStatusEl = document.getElementById('admin-filter-status');
+      const adminToggle = document.getElementById('admin-toggle');
+      
+      if (isAdmin) {
+        adminStatusEl.textContent = 'Enabled';
+        adminStatusEl.className = 'px-3 py-1 rounded-full text-sm font-medium bg-gray-200 text-gray-800 dark:bg-gray-600 dark:text-gray-200';
+        adminToggle.checked = true;
+      } else {
+        adminStatusEl.textContent = 'Disabled';
+        adminStatusEl.className = 'px-3 py-1 rounded-full text-sm font-medium bg-gray-200 text-gray-800 dark:bg-gray-600 dark:text-gray-200';
+        adminToggle.checked = false;
+      }
+      
+      // Update test page filter status
+      const testStatusEl = document.getElementById('test-filter-status');
+      testStatusEl.textContent = 'Enabled';
+      testStatusEl.className = 'px-3 py-1 rounded-full text-sm font-medium bg-gray-200 text-gray-800 dark:bg-gray-600 dark:text-gray-200';
+    }
+
+    function toggleAdminStatus() {
+      const adminToggle = document.getElementById('admin-toggle');
+      const isAdmin = adminToggle.checked;
+      
+      localStorage.setItem('is_admin', isAdmin.toString());
+      updateFilterStatus();
+      
+      // Re-check filter status
+      const isFiltered = shouldFilterVisit();
+      const filterStatus = document.getElementById('filter-status');
+      if (isFiltered) {
+        filterStatus.textContent = 'Yes';
+        filterStatus.className = 'px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
+      } else {
+        filterStatus.textContent = 'No';
+        filterStatus.className = 'px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
+      }
+      
+      alert(`Admin status ${isAdmin ? 'enabled' : 'disabled'}. ${isAdmin ? 'Visits from this browser will be filtered.' : 'Visits from this browser will be tracked normally.'}`);
+    }
+
+    function shouldFilterVisit() {
+      const currentPath = window.location.pathname;
+      const testPages = ['/test-tracking', '/admin', '/analytics'];
+      
+      // 检查是否是测试页面
+      if (testPages.includes(currentPath)) {
+        return true;
+      }
+      
+      // 检查是否标记为管理员
+      const isAdmin = localStorage.getItem('is_admin') === 'true';
+      if (isAdmin) {
+        return true;
+      }
+      
+      return false;
+    }
+
+    function clearAllData() {
+      if (confirm('Are you sure you want to clear all tracking data? This action cannot be undone.')) {
+        localStorage.removeItem('tracking_data');
+        localStorage.removeItem('visitor_analytics');
+        localStorage.removeItem('user_id');
+        localStorage.removeItem('session_id');
+        localStorage.removeItem('is_admin');
+        alert('All data has been cleared. The page will reload to start fresh.');
+        location.reload();
+      }
+    }
+
+    function refreshAnalytics() {
+      if (window.visitorAnalytics) {
+        window.visitorAnalytics.loadData();
+        window.visitorAnalytics.updateDashboard();
+        alert('Analytics data has been refreshed.');
+      } else {
+        alert('Analytics not available. Please refresh the page.');
+      }
+    }
+
+  </script>
+</BaseLayout>

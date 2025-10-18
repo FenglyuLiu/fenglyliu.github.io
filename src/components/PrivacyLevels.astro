@@ -1,0 +1,293 @@
+---
+// 不同隐私级别的追踪配置
+// 这个文件展示了三种不同的追踪策略
+---
+
+<!-- 方案1：完全匿名追踪（无需同意） -->
+<script>
+  // 完全匿名追踪配置 - 不收集任何个人标识信息
+  const ANONYMOUS_TRACKING_CONFIG = {
+    enabled: true,
+    // 不收集用户ID、会话ID等标识信息
+    collectUserInfo: false,
+    collectSessionInfo: false,
+    // 只收集页面级别的匿名数据
+    collectPageData: true,
+    collectTechnicalData: true,
+    collectBehaviorData: true
+  };
+
+  // 匿名追踪数据
+  let anonymousData = {
+    pageViews: [],
+    events: [],
+    technicalInfo: {
+      screenResolution: `${screen.width}x${screen.height}`,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      language: navigator.language,
+      userAgent: navigator.userAgent
+    }
+  };
+
+  function trackAnonymousPageView(pagePath = window.location.pathname) {
+    const pageData = {
+      path: pagePath,
+      title: document.title,
+      timestamp: Date.now(),
+      loadTime: performance.now(),
+      scrollDepth: 0,
+      timeOnPage: 0
+    };
+
+    anonymousData.pageViews.push(pageData);
+    saveAnonymousData();
+  }
+
+  function trackAnonymousEvent(eventType, data) {
+    const eventData = {
+      type: eventType,
+      data: data,
+      timestamp: Date.now(),
+      page: window.location.pathname
+    };
+
+    anonymousData.events.push(eventData);
+    saveAnonymousData();
+  }
+
+  function saveAnonymousData() {
+    try {
+      localStorage.setItem('anonymous_tracking', JSON.stringify(anonymousData));
+    } catch (error) {
+      console.log('匿名数据保存失败:', error);
+    }
+  }
+</script>
+
+<!-- 方案2：最小化追踪（无需同意） -->
+<script>
+  // 最小化追踪配置 - 只收集必要的网站分析数据
+  const MINIMAL_TRACKING_CONFIG = {
+    enabled: true,
+    // 只收集聚合数据，不追踪个人行为
+    collectAggregateData: true,
+    collectPersonalData: false,
+    // 数据自动过期
+    dataRetentionDays: 7
+  };
+
+  let minimalData = {
+    dailyStats: {},
+    pageStats: {},
+    lastUpdated: Date.now()
+  };
+
+  function trackMinimalStats() {
+    const today = new Date().toISOString().split('T')[0];
+    const currentPage = window.location.pathname;
+    
+    // 更新每日统计
+    if (!minimalData.dailyStats[today]) {
+      minimalData.dailyStats[today] = {
+        pageViews: 0,
+        uniquePages: new Set(),
+        totalTime: 0
+      };
+    }
+    
+    minimalData.dailyStats[today].pageViews++;
+    minimalData.dailyStats[today].uniquePages.add(currentPage);
+    
+    // 更新页面统计
+    if (!minimalData.pageStats[currentPage]) {
+      minimalData.pageStats[currentPage] = {
+        views: 0,
+        avgTime: 0
+      };
+    }
+    
+    minimalData.pageStats[currentPage].views++;
+    minimalData.lastUpdated = Date.now();
+    
+    saveMinimalData();
+  }
+
+  function saveMinimalData() {
+    try {
+      // 清理过期数据
+      const sevenDaysAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
+      Object.keys(minimalData.dailyStats).forEach(date => {
+        if (new Date(date).getTime() < sevenDaysAgo) {
+          delete minimalData.dailyStats[date];
+        }
+      });
+      
+      localStorage.setItem('minimal_tracking', JSON.stringify(minimalData));
+    } catch (error) {
+      console.log('最小化数据保存失败:', error);
+    }
+  }
+</script>
+
+<!-- 方案3：完全追踪（需要同意） -->
+<script>
+  // 完全追踪配置 - 需要用户明确同意
+  const FULL_TRACKING_CONFIG = {
+    enabled: false, // 默认禁用，需要用户同意
+    collectUserInfo: true,
+    collectSessionInfo: true,
+    collectPersonalData: true,
+    collectBehaviorData: true,
+    dataRetentionDays: 30
+  };
+
+  // 检查用户同意状态
+  function checkConsent() {
+    const consent = localStorage.getItem('tracking_consent');
+    if (consent === 'accepted') {
+      FULL_TRACKING_CONFIG.enabled = true;
+      return true;
+    } else if (consent === 'declined') {
+      FULL_TRACKING_CONFIG.enabled = false;
+      return false;
+    } else {
+      // 首次访问，显示同意提示
+      showConsentModal();
+      return false;
+    }
+  }
+
+  function showConsentModal() {
+    // 创建同意模态框
+    const modal = document.createElement('div');
+    modal.innerHTML = `
+      <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; display: flex; align-items: center; justify-content: center;">
+        <div style="background: white; padding: 2rem; border-radius: 8px; max-width: 500px; margin: 1rem;">
+          <h3 style="margin-bottom: 1rem;">数据收集同意</h3>
+          <p style="margin-bottom: 1.5rem; color: #666;">
+            我们收集匿名数据来改善网站体验。这些数据不会识别您的身份，仅用于分析目的。
+          </p>
+          <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+            <button id="decline-tracking" style="padding: 0.5rem 1rem; border: 1px solid #ccc; background: white; border-radius: 4px;">
+              拒绝
+            </button>
+            <button id="accept-tracking" style="padding: 0.5rem 1rem; background: #007bff; color: white; border: none; border-radius: 4px;">
+              接受
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // 添加事件监听器
+    document.getElementById('accept-tracking').addEventListener('click', () => {
+      localStorage.setItem('tracking_consent', 'accepted');
+      FULL_TRACKING_CONFIG.enabled = true;
+      document.body.removeChild(modal);
+      initializeFullTracking();
+    });
+    
+    document.getElementById('decline-tracking').addEventListener('click', () => {
+      localStorage.setItem('tracking_consent', 'declined');
+      FULL_TRACKING_CONFIG.enabled = false;
+      document.body.removeChild(modal);
+    });
+  }
+
+  function initializeFullTracking() {
+    if (FULL_TRACKING_CONFIG.enabled) {
+      // 初始化完整追踪功能
+      console.log('完整追踪已启用');
+    }
+  }
+</script>
+
+<!-- 方案4：无追踪模式 -->
+<script>
+  // 无追踪模式 - 完全不收集任何数据
+  const NO_TRACKING_CONFIG = {
+    enabled: false,
+    collectAnyData: false,
+    useGoogleAnalytics: false
+  };
+
+  function disableAllTracking() {
+    // 禁用所有追踪功能
+    localStorage.setItem('tracking_consent', 'declined');
+    localStorage.removeItem('tracking_data');
+    localStorage.removeItem('visitor_analytics');
+    localStorage.removeItem('anonymous_tracking');
+    localStorage.removeItem('minimal_tracking');
+    
+    console.log('所有追踪功能已禁用');
+  }
+</script>
+
+<!-- 隐私级别选择器 -->
+<div id="privacy-level-selector" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+  <button onclick="showPrivacyOptions()" style="background: #007bff; color: white; border: none; padding: 10px; border-radius: 50%; cursor: pointer;">
+    🔒
+  </button>
+</div>
+
+<script>
+  function showPrivacyOptions() {
+    const options = document.createElement('div');
+    options.innerHTML = `
+      <div style="position: fixed; bottom: 80px; right: 20px; background: white; border: 1px solid #ccc; border-radius: 8px; padding: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 1001;">
+        <h4 style="margin-bottom: 1rem;">隐私设置</h4>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <button onclick="setPrivacyLevel('anonymous')" style="padding: 0.5rem; border: 1px solid #ccc; background: white; border-radius: 4px; cursor: pointer;">
+            🟢 匿名追踪（无需同意）
+          </button>
+          <button onclick="setPrivacyLevel('minimal')" style="padding: 0.5rem; border: 1px solid #ccc; background: white; border-radius: 4px; cursor: pointer;">
+            🟡 最小化追踪（无需同意）
+          </button>
+          <button onclick="setPrivacyLevel('full')" style="padding: 0.5rem; border: 1px solid #ccc; background: white; border-radius: 4px; cursor: pointer;">
+            🔴 完整追踪（需要同意）
+          </button>
+          <button onclick="setPrivacyLevel('none')" style="padding: 0.5rem; border: 1px solid #ccc; background: white; border-radius: 4px; cursor: pointer;">
+            ⚫ 无追踪
+          </button>
+        </div>
+        <button onclick="closePrivacyOptions()" style="margin-top: 1rem; padding: 0.5rem; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer; width: 100%;">
+          关闭
+        </button>
+      </div>
+    `;
+    
+    document.body.appendChild(options);
+  }
+
+  function setPrivacyLevel(level) {
+    switch(level) {
+      case 'anonymous':
+        localStorage.setItem('privacy_level', 'anonymous');
+        alert('已启用匿名追踪模式');
+        break;
+      case 'minimal':
+        localStorage.setItem('privacy_level', 'minimal');
+        alert('已启用最小化追踪模式');
+        break;
+      case 'full':
+        localStorage.setItem('privacy_level', 'full');
+        checkConsent();
+        break;
+      case 'none':
+        localStorage.setItem('privacy_level', 'none');
+        disableAllTracking();
+        alert('已禁用所有追踪');
+        break;
+    }
+    closePrivacyOptions();
+  }
+
+  function closePrivacyOptions() {
+    const options = document.querySelector('div[style*="position: fixed; bottom: 80px"]');
+    if (options) {
+      document.body.removeChild(options);
+    }
+  }
+</script>

@@ -1,0 +1,332 @@
+---
+// Visitor Analytics Dashboard Component
+// This component displays visitor statistics
+---
+
+<div class="visitor-analytics-dashboard bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+  <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Visitor Analytics</h2>
+  
+  <!-- Real-time Statistics -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+    <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+      <div class="flex items-center">
+        <div class="p-2 rounded-lg" style="background-color: #1e40af;">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+          </svg>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Today's Visitors</p>
+          <p class="text-2xl font-semibold text-gray-900 dark:text-gray-100" id="today-visitors">-</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+      <div class="flex items-center">
+        <div class="p-2 rounded-lg" style="background-color: #1e40af;">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+          </svg>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Page Views</p>
+          <p class="text-2xl font-semibold text-gray-900 dark:text-gray-100" id="page-views">-</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+      <div class="flex items-center">
+        <div class="p-2 rounded-lg" style="background-color: #1e40af;">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Avg. Time on Page</p>
+          <p class="text-2xl font-semibold text-gray-900 dark:text-gray-100" id="avg-time">-</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popular Pages -->
+  <div class="mb-6">
+    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Popular Pages</h3>
+    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+      <div id="popular-pages" class="space-y-2">
+        <div class="flex justify-between items-center p-2 bg-white dark:bg-gray-600 rounded">
+          <span class="text-gray-600 dark:text-gray-300">Loading...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Traffic Sources -->
+  <div class="mb-6">
+    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Traffic Sources</h3>
+    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+      <div id="traffic-sources" class="space-y-2">
+        <div class="flex justify-between items-center p-2 bg-white dark:bg-gray-600 rounded">
+          <span class="text-gray-600 dark:text-gray-300">Loading...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page Time Analysis -->
+  <div>
+    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Page Time Analysis</h3>
+    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+      <div id="page-time-analysis" class="space-y-2">
+        <div class="flex justify-between items-center p-2 bg-white dark:bg-gray-600 rounded">
+          <span class="text-gray-600 dark:text-gray-300">Loading...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Visitor Analytics Data Management
+  class VisitorAnalytics {
+    constructor() {
+      this.data = {
+        visitors: [],
+        pageViews: [],
+        sessions: [],
+        events: []
+      };
+      this.init();
+    }
+
+    init() {
+      this.loadData();
+      this.updateDashboard();
+      // Update data every 30 seconds
+      setInterval(() => this.updateDashboard(), 30000);
+    }
+
+    loadData() {
+      // Load local data from localStorage
+      const storedData = localStorage.getItem('visitor_analytics');
+      if (storedData) {
+        this.data = JSON.parse(storedData);
+      }
+      
+      // Extract page view information from tracking data (minimal tracking mode)
+      const trackingData = localStorage.getItem('tracking_data');
+      if (trackingData) {
+        const events = JSON.parse(trackingData);
+        events.forEach(event => {
+          if (event.eventType === 'page_view') {
+            // Filter out admin and test visits
+            if (!this.isFilteredData(event.data)) {
+              this.addPageView(event.data);
+            }
+          }
+          // Minimal tracking mode doesn't collect click events
+        });
+      }
+    }
+
+    // Check if data should be filtered
+    isFilteredData(pageData) {
+      // Check if it's a test page
+      const testPages = ['/test-tracking', '/admin', '/analytics', '/privacy', '/privacy-settings'];
+      if (testPages.includes(pageData.path)) {
+        return true;
+      }
+
+      // Check if marked as filtered
+      if (pageData.isFiltered === true) {
+        return true;
+      }
+
+      // Check if it's admin access (by page title)
+      const adminKeywords = ['Analytics', 'Privacy Settings', 'Test Tracking', 'Admin'];
+      if (adminKeywords.some(keyword => pageData.title.includes(keyword))) {
+        return true;
+      }
+
+      return false;
+    }
+
+    saveData() {
+      localStorage.setItem('visitor_analytics', JSON.stringify(this.data));
+    }
+
+    addVisitor(visitorData) {
+      this.data.visitors.push({
+        ...visitorData,
+        timestamp: Date.now()
+      });
+      this.saveData();
+    }
+
+    addPageView(pageData) {
+      this.data.pageViews.push({
+        ...pageData,
+        timestamp: Date.now()
+      });
+      this.saveData();
+    }
+
+    addEvent(eventData) {
+      this.data.events.push({
+        ...eventData,
+        timestamp: Date.now()
+      });
+      this.saveData();
+    }
+
+    getTodayVisitors() {
+      const today = new Date().toDateString();
+      return this.data.visitors.filter(v => 
+        new Date(v.timestamp).toDateString() === today
+      ).length;
+    }
+
+    getTotalPageViews() {
+      return this.data.pageViews.length;
+    }
+
+    getAverageTimeOnPage() {
+      if (this.data.pageViews.length === 0) return 0;
+      
+      const totalTime = this.data.pageViews.reduce((sum, page) => 
+        sum + (page.timeOnPage || 0), 0
+      );
+      
+      return Math.round(totalTime / this.data.pageViews.length);
+    }
+
+    getPopularPages() {
+      const pageCounts = {};
+      this.data.pageViews.forEach(page => {
+        pageCounts[page.path] = (pageCounts[page.path] || 0) + 1;
+      });
+
+      return Object.entries(pageCounts)
+        .sort(([,a], [,b]) => b - a)
+        .slice(0, 5)
+        .map(([path, count]) => ({ path, count }));
+    }
+
+    getTrafficSources() {
+      const sourceCounts = {};
+      this.data.visitors.forEach(visitor => {
+        const source = visitor.referrer ? 
+          new URL(visitor.referrer).hostname : '直接访问';
+        sourceCounts[source] = (sourceCounts[source] || 0) + 1;
+      });
+
+      return Object.entries(sourceCounts)
+        .sort(([,a], [,b]) => b - a)
+        .slice(0, 5)
+        .map(([source, count]) => ({ source, count }));
+    }
+
+    getLiveVisitors() {
+      const fiveMinutesAgo = Date.now() - (5 * 60 * 1000);
+      return this.data.visitors.filter(v => v.timestamp > fiveMinutesAgo);
+    }
+
+    updateDashboard() {
+      // Update today's visitors
+      document.getElementById('today-visitors').textContent = this.getTodayVisitors();
+      
+      // Update page views
+      document.getElementById('page-views').textContent = this.getTotalPageViews();
+      
+      // Update average time on page
+      const avgTime = this.getAverageTimeOnPage();
+      document.getElementById('avg-time').textContent = 
+        avgTime > 60 ? `${Math.round(avgTime / 60)}min` : `${avgTime}s`;
+
+      // Update popular pages
+      this.updatePopularPages();
+      
+      // Update traffic sources
+      this.updateTrafficSources();
+      
+      // Update page time analysis
+      this.updatePageTimeAnalysis();
+    }
+
+    updatePopularPages() {
+      const container = document.getElementById('popular-pages');
+      const popularPages = this.getPopularPages();
+      
+      container.innerHTML = popularPages.map(page => `
+        <div class="flex justify-between items-center p-2 bg-white dark:bg-gray-600 rounded">
+          <span class="text-gray-900 dark:text-gray-100">${page.path}</span>
+          <span class="text-gray-600 dark:text-gray-400 font-medium">${page.count} views</span>
+        </div>
+      `).join('');
+    }
+
+    updateTrafficSources() {
+      const container = document.getElementById('traffic-sources');
+      const sources = this.getTrafficSources();
+      
+      container.innerHTML = sources.map(source => `
+        <div class="flex justify-between items-center p-2 bg-white dark:bg-gray-600 rounded">
+          <span class="text-gray-900 dark:text-gray-100">${source.source}</span>
+          <span class="text-gray-600 dark:text-gray-400 font-medium">${source.count} visits</span>
+        </div>
+      `).join('');
+    }
+
+    getPageTimeAnalysis() {
+      const pageTimes = {};
+      this.data.pageViews.forEach(page => {
+        if (!pageTimes[page.path]) {
+          pageTimes[page.path] = {
+            path: page.path,
+            title: page.title,
+            visits: 0,
+            totalTime: 0,
+            avgTime: 0
+          };
+        }
+        pageTimes[page.path].visits++;
+        pageTimes[page.path].totalTime += page.timeOnPage || 0;
+      });
+
+      // 计算平均时间
+      Object.values(pageTimes).forEach(page => {
+        page.avgTime = Math.round(page.totalTime / page.visits);
+      });
+
+      return Object.values(pageTimes)
+        .sort((a, b) => b.avgTime - a.avgTime)
+        .slice(0, 10);
+    }
+
+    updatePageTimeAnalysis() {
+      const container = document.getElementById('page-time-analysis');
+      const pageTimes = this.getPageTimeAnalysis();
+      
+      container.innerHTML = pageTimes.map(page => `
+        <div class="flex justify-between items-center p-2 bg-white dark:bg-gray-600 rounded">
+          <div class="flex-1">
+            <div class="text-gray-900 dark:text-gray-100 font-medium">${page.title}</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400">${page.path}</div>
+          </div>
+          <div class="text-right">
+            <div class="text-gray-600 dark:text-gray-400 font-medium">${page.avgTime}s</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400">${page.visits} visits</div>
+          </div>
+        </div>
+      `).join('');
+    }
+  }
+
+  // Initialize analytics dashboard
+  document.addEventListener('DOMContentLoaded', function() {
+    window.visitorAnalytics = new VisitorAnalytics();
+  });
+</script>

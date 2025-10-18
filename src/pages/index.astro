@@ -7,9 +7,9 @@ const projects = await getAllProjects()
 ---
 <BaseLayout title="Felicity Liu" description="Personal Website for Design&research projects and Photography masterpieces.">
 
-<section class="min-h-screen flex flex-col items-center justify-center text-center px-4 -mt-16 relative overflow-hidden z-10">
+<section class="min-h-screen flex flex-col items-center justify-center text-center px-4 -mt-16 relative z-10">
 <!-- LightRays 动画背景 - 仅在暗色模式显示 -->
-<div class="hidden dark:block" style={{ width: '100vw', height: '100vh', position: 'fixed', top: '0', left: '0', zIndex: 1 }}>
+<div class="hidden dark:block" style={{ width: '100vw', height: '100vh', position: 'fixed', top: '0', left: '0', zIndex: 5 }}>
 <LightRays
   raysOrigin="top-center"
   raysColor="#ffffff"

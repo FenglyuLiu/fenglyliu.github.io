@@ -1,0 +1,359 @@
+---
+// Google Analytics 4 追踪组件
+// 请将 YOUR_GA4_MEASUREMENT_ID 替换为您的实际 GA4 测量 ID
+const GA4_MEASUREMENT_ID = 'G-XXXXXXXXXX'; // 请替换为您的 GA4 ID
+---
+
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id={GA4_MEASUREMENT_ID}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '{GA4_MEASUREMENT_ID}', {
+    // 隐私设置
+    anonymize_ip: true,
+    allow_google_signals: false,
+    allow_ad_personalization_signals: false
+  });
+</script>
+
+<!-- 自定义访问者追踪 -->
+<script>
+  // 访问者追踪配置 - 最小化追踪模式
+  const TRACKING_CONFIG = {
+    // 隐私级别：只使用最小化追踪
+    privacyLevel: 'minimal',
+    // 是否启用追踪
+    enabled: true,
+    // 会话超时时间（分钟）
+    sessionTimeout: 30,
+    // 页面停留时间追踪间隔（秒）
+    trackingInterval: 5,
+    // 不需要用户同意
+    requireConsent: false,
+    // 只收集页面访问和停留时间数据
+    collectPageViews: true,
+    collectTimeOnPage: true,
+    collectScrollDepth: false,
+    collectClickEvents: false,
+    collectUserInfo: false,
+    // 过滤配置
+    filterOwnVisits: true,
+    filterTestVisits: true,
+    // 管理员IP地址（可选）
+    adminIPs: [],
+    // 测试页面路径
+    testPages: ['/test-tracking', '/admin', '/analytics']
+  };
+
+  // 最小化访问者数据 - 只收集页面访问和停留时间
+  let visitorData = {
+    sessionId: generateSessionId(),
+    startTime: Date.now(),
+    currentPage: window.location.pathname,
+    pages: []
+  };
+
+  // 生成会话ID
+  function generateSessionId() {
+    return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+  }
+
+  // 检查是否为管理员访问
+  function isAdminVisit() {
+    // 检查是否在测试页面
+    const currentPath = window.location.pathname;
+    if (TRACKING_CONFIG.testPages.includes(currentPath)) {
+      return true;
+    }
+
+    // 检查是否标记为管理员
+    const isAdmin = localStorage.getItem('is_admin') === 'true';
+    if (isAdmin) {
+      return true;
+    }
+
+    // 检查用户代理字符串（可选）
+    const userAgent = navigator.userAgent.toLowerCase();
+    const adminKeywords = ['admin', 'test', 'dev', 'localhost', '127.0.0.1'];
+    if (adminKeywords.some(keyword => userAgent.includes(keyword))) {
+      return true;
+    }
+
+    // 检查是否在开发/测试环境
+    const hostname = window.location.hostname;
+    if (hostname === 'localhost' || 
+        hostname === '127.0.0.1' ||
+        hostname.includes('dev') ||
+        hostname.includes('test') ||
+        hostname.includes('staging') ||
+        hostname.includes('preview') ||
+        hostname.includes('vercel.app') ||
+        hostname.includes('netlify.app') ||
+        hostname.includes('github.io')) {
+      return true;
+    }
+
+    return false;
+  }
+
+  // 检查是否应该过滤此访问
+  function shouldFilterVisit() {
+    if (!TRACKING_CONFIG.filterOwnVisits && !TRACKING_CONFIG.filterTestVisits) {
+      return false;
+    }
+
+    // 检查是否为管理员访问
+    if (TRACKING_CONFIG.filterOwnVisits && isAdminVisit()) {
+      console.log('过滤管理员访问:', window.location.pathname);
+      return true;
+    }
+
+    // 检查是否为测试页面访问
+    if (TRACKING_CONFIG.filterTestVisits) {
+      const currentPath = window.location.pathname;
+      if (TRACKING_CONFIG.testPages.includes(currentPath)) {
+        console.log('过滤测试页面访问:', currentPath);
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  // 追踪页面访问 - 最小化数据收集（带过滤）
+  function trackPageView(pagePath = window.location.pathname) {
+    // 检查是否应该过滤此访问
+    if (shouldFilterVisit()) {
+      console.log('跳过追踪 - 管理员或测试访问:', pagePath);
+      return;
+    }
+
+    const pageData = {
+      path: pagePath,
+      title: document.title,
+      timestamp: Date.now(),
+      timeOnPage: 0,
+      isFiltered: false // 标记为未过滤的数据
+    };
+
+    visitorData.pages.push(pageData);
+    visitorData.currentPage = pagePath;
+
+    // 发送到 Google Analytics（不过滤）
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'page_view', {
+        page_title: document.title,
+        page_location: window.location.href,
+        page_path: pagePath
+      });
+    }
+
+    // 保存追踪数据
+    sendTrackingData('page_view', pageData);
+  }
+
+  // 追踪页面停留时间（带过滤）
+  function trackTimeOnPage() {
+    // 如果当前访问应该被过滤，跳过停留时间追踪
+    if (shouldFilterVisit()) {
+      return;
+    }
+
+    const currentPage = visitorData.pages[visitorData.pages.length - 1];
+    if (currentPage && !currentPage.isFiltered) {
+      currentPage.timeOnPage += TRACKING_CONFIG.trackingInterval;
+      
+      // 每30秒发送一次更新
+      if (currentPage.timeOnPage % 30 === 0) {
+        sendTrackingData('time_update', {
+          page: currentPage.path,
+          timeOnPage: currentPage.timeOnPage
+        });
+      }
+    }
+  }
+
+  // 追踪滚动深度
+  function trackScrollDepth() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollPercentage = Math.round((scrollTop / scrollHeight) * 100);
+
+    const currentPage = visitorData.pages[visitorData.pages.length - 1];
+    if (currentPage && scrollPercentage > currentPage.scrollDepth) {
+      currentPage.scrollDepth = scrollPercentage;
+      
+      // 在25%, 50%, 75%, 100%时发送事件
+      if ([25, 50, 75, 100].includes(scrollPercentage)) {
+        sendTrackingData('scroll_depth', {
+          page: currentPage.path,
+          depth: scrollPercentage
+        });
+
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'scroll', {
+            event_category: 'engagement',
+            event_label: currentPage.path,
+            value: scrollPercentage
+          });
+        }
+      }
+    }
+  }
+
+  // 追踪点击事件
+  function trackClickEvent(element, eventType = 'click') {
+    const clickData = {
+      type: eventType,
+      element: element.tagName,
+      text: element.textContent?.substring(0, 100) || '',
+      href: element.href || '',
+      className: element.className || '',
+      timestamp: Date.now(),
+      page: visitorData.currentPage
+    };
+
+    visitorData.events.push(clickData);
+    sendTrackingData('click', clickData);
+
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'click', {
+        event_category: 'engagement',
+        event_label: element.textContent?.substring(0, 50) || element.tagName,
+        value: 1
+      });
+    }
+  }
+
+  // 发送追踪数据
+  function sendTrackingData(eventType, data) {
+    if (!TRACKING_CONFIG.enabled) return;
+
+    const payload = {
+      eventType,
+      data,
+      visitor: {
+        sessionId: visitorData.sessionId,
+        userId: visitorData.userId,
+        timestamp: Date.now()
+      }
+    };
+
+    // 保存到本地存储
+    try {
+      const existingData = JSON.parse(localStorage.getItem('tracking_data') || '[]');
+      existingData.push(payload);
+      // 限制存储的数据量，只保留最近1000条记录
+      if (existingData.length > 1000) {
+        existingData.splice(0, existingData.length - 1000);
+      }
+      localStorage.setItem('tracking_data', JSON.stringify(existingData));
+    } catch (error) {
+      console.log('本地存储失败:', error);
+    }
+  }
+
+  // 页面卸载时保存最终数据
+  function sendFinalData() {
+    const finalData = {
+      sessionId: visitorData.sessionId,
+      userId: visitorData.userId,
+      totalTime: Date.now() - visitorData.startTime,
+      pages: visitorData.pages,
+      events: visitorData.events,
+      endTime: Date.now()
+    };
+
+    sendTrackingData('session_end', finalData);
+  }
+
+  // 初始化最小化追踪 - 只收集页面访问和停留时间
+  function initializeTracking() {
+    // 默认使用最小化追踪模式
+    TRACKING_CONFIG.privacyLevel = 'minimal';
+    TRACKING_CONFIG.enabled = true;
+    TRACKING_CONFIG.requireConsent = false;
+    
+    // 直接初始化最小化追踪
+    initializeMinimalTracking();
+  }
+
+  // 匿名追踪初始化
+  function initializeAnonymousTracking() {
+    console.log('匿名追踪模式已启用');
+    trackPageView();
+    setInterval(trackTimeOnPage, TRACKING_CONFIG.trackingInterval * 1000);
+  }
+
+  // 最小化追踪初始化 - 只追踪页面访问和停留时间
+  function initializeMinimalTracking() {
+    console.log('最小化追踪模式已启用 - 只收集页面访问和停留时间');
+    
+    // 追踪初始页面访问
+    trackPageView();
+
+    // 设置页面停留时间追踪
+    setInterval(trackTimeOnPage, TRACKING_CONFIG.trackingInterval * 1000);
+  }
+
+  // 完整追踪初始化
+  function initializeFullTracking() {
+    console.log('完整追踪模式已启用');
+    trackPageView();
+    setInterval(trackTimeOnPage, TRACKING_CONFIG.trackingInterval * 1000);
+
+    // 追踪滚动事件
+    let scrollTimeout;
+    window.addEventListener('scroll', function() {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(trackScrollDepth, 100);
+    });
+
+    // 追踪点击事件
+    document.addEventListener('click', function(event) {
+      trackClickEvent(event.target);
+    });
+
+    // 追踪页面可见性变化
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        sendTrackingData('page_hidden', {
+          page: visitorData.currentPage,
+          timestamp: Date.now()
+        });
+      } else {
+        sendTrackingData('page_visible', {
+          page: visitorData.currentPage,
+          timestamp: Date.now()
+        });
+      }
+    });
+  }
+
+
+  // 初始化追踪 - 延迟初始化以避免干扰其他组件
+  document.addEventListener('DOMContentLoaded', function() {
+    // 延迟初始化，让其他组件（如 LightRays）先完成初始化
+    setTimeout(function() {
+      initializeTracking();
+    }, 100);
+    
+    // 追踪页面离开（所有模式都需要）
+    window.addEventListener('beforeunload', sendFinalData);
+    window.addEventListener('pagehide', sendFinalData);
+  });
+
+  // 页面路由变化追踪（适用于单页应用）- 延迟初始化
+  setTimeout(function() {
+    let currentUrl = window.location.href;
+    setInterval(function() {
+      if (currentUrl !== window.location.href) {
+        trackPageView();
+        currentUrl = window.location.href;
+      }
+    }, 1000);
+  }, 200);
+</script>
+
